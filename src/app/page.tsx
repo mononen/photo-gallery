@@ -1,6 +1,6 @@
-import { Typography, Box, Container } from '@mui/material';
+import { Box } from '@mui/material';
 import { getAllEvents } from '@/lib/events';
-import GalleryClient from '@/components/GalleryClient';
+import PageContent from '@/components/PageContent';
 import { Fragment } from 'react';
 
 export default function Home() {
@@ -33,51 +33,7 @@ export default function Home() {
         }}
       />
 
-      {/* Header - Fixed at top */}
-      <Box
-        sx={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          right: 0,
-          zIndex: 200,
-          background: 'linear-gradient(180deg, rgba(26, 26, 46, 0.95) 0%, rgba(26, 26, 46, 0.8) 70%, transparent 100%)',
-          backdropFilter: 'blur(10px)',
-          py: { xs: 2, md: 3 },
-        }}
-      >
-        <Container maxWidth="xl">
-          <Box sx={{ textAlign: 'center' }}>
-            <Typography
-              variant="h4"
-              component="h1"
-              sx={{
-                color: 'white',
-                fontWeight: 800,
-                fontSize: { xs: '1.75rem', md: '2.5rem' },
-                textShadow: '0 4px 20px rgba(0,0,0,0.4)',
-                letterSpacing: '-0.02em',
-                background: 'linear-gradient(135deg, #fff 0%, rgba(255,255,255,0.8) 100%)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text',
-              }}
-            >
-              Photo Gallery
-            </Typography>
-          </Box>
-        </Container>
-      </Box>
-
-      {/* Spacer for fixed header */}
-      <Box 
-        sx={{ 
-          height: { xs: 80, md: 100 },
-          scrollSnapAlign: 'none',
-        }} 
-      />
-
-      <GalleryClient events={events} />
+      <PageContent events={events} />
 
       {/* Scroll indicator */}
       <Box

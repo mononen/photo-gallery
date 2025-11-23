@@ -71,24 +71,15 @@ export default function FilterBar({
   return (
     <Box
       sx={{
-        position: 'sticky',
-        top: 16,
-        zIndex: 100,
-        mx: -2,
-        px: 2,
+        background: 'rgba(255, 255, 255, 0.85)',
+        backdropFilter: 'blur(20px) saturate(180%)',
+        borderRadius: 3,
+        border: '1px solid rgba(255, 255, 255, 0.3)',
+        boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
+        overflow: 'hidden',
+        transition: 'all 0.3s ease',
       }}
     >
-      <Box
-        sx={{
-          background: 'rgba(255, 255, 255, 0.85)',
-          backdropFilter: 'blur(20px) saturate(180%)',
-          borderRadius: 3,
-          border: '1px solid rgba(255, 255, 255, 0.3)',
-          boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
-          overflow: 'hidden',
-          transition: 'all 0.3s ease',
-        }}
-      >
         {/* Compact search bar */}
         <Stack
           direction="row"
@@ -230,7 +221,6 @@ export default function FilterBar({
             </Stack>
           </Box>
         </Collapse>
-      </Box>
     </Box>
   );
 }
