@@ -1,17 +1,20 @@
 'use client';
 
+import { useState } from 'react';
 import {
   Box,
   TextField,
   MenuItem,
   Select,
   FormControl,
-  InputLabel,
   SelectChangeEvent,
   Stack,
-  Paper,
+  IconButton,
+  Collapse,
+  Chip,
+  InputAdornment,
 } from '@mui/material';
-import { Search } from '@mui/icons-material';
+import { Search, FilterList, Close } from '@mui/icons-material';
 import { Event } from '@/types/event';
 import { FilterOptions, SortOrder, getEventTypes, getYears } from '@/lib/filters';
 
@@ -26,6 +29,7 @@ export default function FilterBar({
   filters,
   onFiltersChange,
 }: FilterBarProps) {
+  const [expanded, setExpanded] = useState(false);
   const eventTypes = getEventTypes(events);
   const years = getYears(events);
 
@@ -57,77 +61,177 @@ export default function FilterBar({
     });
   };
 
+  const clearFilters = () => {
+    onFiltersChange({ sortOrder: 'newest' });
+  };
+
+  const hasActiveFilters = filters.eventType || filters.year || filters.searchQuery;
+  const activeFilterCount = [filters.eventType, filters.year, filters.searchQuery].filter(Boolean).length;
+
   return (
-    <Paper
-      elevation={2}
+    <Box
       sx={{
-        p: 3,
-        mb: 4,
-        borderRadius: 3,
+        position: 'sticky',
+        top: 16,
+        zIndex: 100,
+        mx: -2,
+        px: 2,
       }}
     >
-      <Stack
-        direction={{ xs: 'column', md: 'row' }}
-        spacing={2}
-        alignItems={{ xs: 'stretch', md: 'center' }}
+      <Box
+        sx={{
+          background: 'rgba(255, 255, 255, 0.85)',
+          backdropFilter: 'blur(20px) saturate(180%)',
+          borderRadius: 3,
+          border: '1px solid rgba(255, 255, 255, 0.3)',
+          boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
+          overflow: 'hidden',
+          transition: 'all 0.3s ease',
+        }}
       >
-        <TextField
-          fullWidth
-          variant="outlined"
-          placeholder="Search events..."
-          value={filters.searchQuery || ''}
-          onChange={handleSearchChange}
-          InputProps={{
-            startAdornment: <Search sx={{ mr: 1, color: 'text.secondary' }} />,
-          }}
-          sx={{ flexGrow: 1 }}
-        />
+        {/* Compact search bar */}
+        <Stack
+          direction="row"
+          spacing={1}
+          alignItems="center"
+          sx={{ p: 1.5 }}
+        >
+          <TextField
+            fullWidth
+            variant="standard"
+            placeholder="Search events..."
+            value={filters.searchQuery || ''}
+            onChange={handleSearchChange}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Search sx={{ color: 'rgba(0,0,0,0.4)' }} />
+                </InputAdornment>
+              ),
+              disableUnderline: true,
+              sx: {
+                fontSize: '0.95rem',
+                '& input': {
+                  py: 0.5,
+                },
+              },
+            }}
+            sx={{ flexGrow: 1 }}
+          />
 
-        <FormControl sx={{ minWidth: 150 }}>
-          <InputLabel>Event Type</InputLabel>
-          <Select
-            value={filters.eventType || ''}
-            onChange={handleEventTypeChange}
-            label="Event Type"
-          >
-            <MenuItem value="">All Types</MenuItem>
-            {eventTypes.map((type) => (
-              <MenuItem key={type} value={type}>
-                {type}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
+          {hasActiveFilters && (
+            <Chip
+              label={activeFilterCount}
+              size="small"
+              color="primary"
+              sx={{ 
+                height: 24, 
+                minWidth: 24,
+                '& .MuiChip-label': { px: 1 },
+              }}
+            />
+          )}
 
-        <FormControl sx={{ minWidth: 120 }}>
-          <InputLabel>Year</InputLabel>
-          <Select
-            value={filters.year || ''}
-            onChange={handleYearChange}
-            label="Year"
+          <IconButton
+            size="small"
+            onClick={() => setExpanded(!expanded)}
+            sx={{
+              color: expanded ? 'primary.main' : 'rgba(0,0,0,0.5)',
+              transition: 'all 0.2s',
+            }}
           >
-            <MenuItem value="">All Years</MenuItem>
-            {years.map((year) => (
-              <MenuItem key={year} value={year}>
-                {year}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
+            <FilterList />
+          </IconButton>
 
-        <FormControl sx={{ minWidth: 140 }}>
-          <InputLabel>Sort</InputLabel>
-          <Select
-            value={filters.sortOrder || 'newest'}
-            onChange={handleSortChange}
-            label="Sort"
-          >
-            <MenuItem value="newest">Newest First</MenuItem>
-            <MenuItem value="oldest">Oldest First</MenuItem>
-          </Select>
-        </FormControl>
-      </Stack>
-    </Paper>
+          {hasActiveFilters && (
+            <IconButton
+              size="small"
+              onClick={clearFilters}
+              sx={{ color: 'rgba(0,0,0,0.5)' }}
+            >
+              <Close fontSize="small" />
+            </IconButton>
+          )}
+        </Stack>
+
+        {/* Expandable filters */}
+        <Collapse in={expanded}>
+          <Box sx={{ px: 2, pb: 2, pt: 0 }}>
+            <Stack
+              direction={{ xs: 'column', sm: 'row' }}
+              spacing={2}
+              sx={{ mt: 1 }}
+            >
+              <FormControl size="small" sx={{ minWidth: 150 }}>
+                <Select
+                  value={filters.eventType || ''}
+                  onChange={handleEventTypeChange}
+                  displayEmpty
+                  variant="standard"
+                  disableUnderline
+                  sx={{
+                    fontSize: '0.9rem',
+                    '& .MuiSelect-select': {
+                      py: 0.5,
+                      color: filters.eventType ? 'text.primary' : 'rgba(0,0,0,0.5)',
+                    },
+                  }}
+                >
+                  <MenuItem value="">All Types</MenuItem>
+                  {eventTypes.map((type) => (
+                    <MenuItem key={type} value={type}>
+                      {type}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+
+              <FormControl size="small" sx={{ minWidth: 120 }}>
+                <Select
+                  value={filters.year || ''}
+                  onChange={handleYearChange}
+                  displayEmpty
+                  variant="standard"
+                  disableUnderline
+                  sx={{
+                    fontSize: '0.9rem',
+                    '& .MuiSelect-select': {
+                      py: 0.5,
+                      color: filters.year ? 'text.primary' : 'rgba(0,0,0,0.5)',
+                    },
+                  }}
+                >
+                  <MenuItem value="">All Years</MenuItem>
+                  {years.map((year) => (
+                    <MenuItem key={year} value={year}>
+                      {year}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+
+              <FormControl size="small" sx={{ minWidth: 140 }}>
+                <Select
+                  value={filters.sortOrder || 'newest'}
+                  onChange={handleSortChange}
+                  variant="standard"
+                  disableUnderline
+                  sx={{
+                    fontSize: '0.9rem',
+                    '& .MuiSelect-select': {
+                      py: 0.5,
+                    },
+                  }}
+                >
+                  <MenuItem value="newest">Newest First</MenuItem>
+                  <MenuItem value="oldest">Oldest First</MenuItem>
+                </Select>
+              </FormControl>
+            </Stack>
+          </Box>
+        </Collapse>
+      </Box>
+    </Box>
   );
 }
 
