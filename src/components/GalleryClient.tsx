@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useMemo } from 'react';
-import { Box } from '@mui/material';
+import { Box, Container } from '@mui/material';
 import { Event } from '@/types/event';
 import { FilterOptions, filterAndSortEvents } from '@/lib/filters';
 import EventGrid from './EventGrid';
@@ -22,11 +22,13 @@ export default function GalleryClient({ events }: GalleryClientProps) {
 
   return (
     <Box>
-      <Box sx={{ mb: 4 }}>
+      {/* Filter bar in container */}
+      <Container maxWidth="xl" sx={{ position: 'relative', zIndex: 150 }}>
         <FilterBar events={events} filters={filters} onFiltersChange={setFilters} />
-      </Box>
+      </Container>
       
-      <Box sx={{ mt: 3 }}>
+      {/* Full-width event grid with snap scrolling */}
+      <Box sx={{ mt: 4 }}>
         <EventGrid events={filteredEvents} />
       </Box>
     </Box>

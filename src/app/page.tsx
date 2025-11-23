@@ -1,18 +1,27 @@
-import { Container, Typography, Box } from '@mui/material';
+import { Typography, Box, Container } from '@mui/material';
 import { getAllEvents } from '@/lib/events';
 import GalleryClient from '@/components/GalleryClient';
+import { Fragment } from 'react';
 
 export default function Home() {
   const events = getAllEvents();
 
   return (
-    <Box
-      sx={{
-        minHeight: '100vh',
-        background: 'linear-gradient(180deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)',
-        position: 'relative',
-        '&::before': {
-          content: '""',
+    <Fragment>
+      {/* Fixed background */}
+      <Box
+        sx={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: 'linear-gradient(180deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)',
+          zIndex: -2,
+        }}
+      />
+      <Box
+        sx={{
           position: 'fixed',
           top: 0,
           left: 0,
@@ -20,54 +29,57 @@ export default function Home() {
           bottom: 0,
           background: 'radial-gradient(circle at 20% 50%, rgba(102, 126, 234, 0.1) 0%, transparent 50%), radial-gradient(circle at 80% 80%, rgba(118, 75, 162, 0.1) 0%, transparent 50%)',
           pointerEvents: 'none',
-        },
-      }}
-    >
-      <Container 
-        maxWidth="xl" 
-        sx={{ 
-          position: 'relative',
-          zIndex: 1,
-          py: { xs: 3, md: 6 },
+          zIndex: -1,
+        }}
+      />
+
+      {/* Header - Fixed at top */}
+      <Box
+        sx={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          zIndex: 200,
+          background: 'linear-gradient(180deg, rgba(26, 26, 46, 0.95) 0%, rgba(26, 26, 46, 0.8) 70%, transparent 100%)',
+          backdropFilter: 'blur(10px)',
+          py: { xs: 2, md: 3 },
         }}
       >
-        {/* Header */}
-        <Box sx={{ mb: { xs: 4, md: 6 }, textAlign: 'center', pt: 2 }}>
-          <Typography
-            variant="h2"
-            component="h1"
-            sx={{
-              color: 'white',
-              fontWeight: 800,
-              mb: 1.5,
-              fontSize: { xs: '2.5rem', md: '3.5rem' },
-              textShadow: '0 4px 20px rgba(0,0,0,0.4)',
-              letterSpacing: '-0.02em',
-              background: 'linear-gradient(135deg, #fff 0%, rgba(255,255,255,0.8) 100%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text',
-            }}
-          >
-            Photo Gallery
-          </Typography>
-          <Typography
-            variant="h6"
-            sx={{
-              color: 'rgba(255,255,255,0.7)',
-              textShadow: '0 2px 8px rgba(0,0,0,0.3)',
-              fontWeight: 400,
-              fontSize: { xs: '1rem', md: '1.25rem' },
-            }}
-          >
-            Events and Albums
-          </Typography>
-        </Box>
+        <Container maxWidth="xl">
+          <Box sx={{ textAlign: 'center' }}>
+            <Typography
+              variant="h4"
+              component="h1"
+              sx={{
+                color: 'white',
+                fontWeight: 800,
+                fontSize: { xs: '1.75rem', md: '2.5rem' },
+                textShadow: '0 4px 20px rgba(0,0,0,0.4)',
+                letterSpacing: '-0.02em',
+                background: 'linear-gradient(135deg, #fff 0%, rgba(255,255,255,0.8) 100%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text',
+              }}
+            >
+              Photo Gallery
+            </Typography>
+          </Box>
+        </Container>
+      </Box>
 
-        <GalleryClient events={events} />
-      </Container>
+      {/* Spacer for fixed header */}
+      <Box 
+        sx={{ 
+          height: { xs: 80, md: 100 },
+          scrollSnapAlign: 'none',
+        }} 
+      />
 
-      {/* Scroll indicator (optional, appears only on first load) */}
+      <GalleryClient events={events} />
+
+      {/* Scroll indicator */}
       <Box
         sx={{
           position: 'fixed',
@@ -113,7 +125,7 @@ export default function Home() {
           }}
         />
       </Box>
-    </Box>
+    </Fragment>
   );
 }
 

@@ -1,5 +1,6 @@
 'use client';
 
+import { useMemo } from 'react';
 import {
   Typography,
   Box,
@@ -24,21 +25,29 @@ export default function EventCard({ event, index }: EventCardProps) {
   const formattedDate = format(new Date(event.date), 'MMMM d, yyyy');
   const year = new Date(event.date).getFullYear();
 
-  // Get first thumbnail or use a placeholder gradient
-  const backgroundImage = event.thumbnails[0]?.url
-    ? `url(${event.thumbnails[0].url})`
-    : 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+  // Randomly select a thumbnail for background (memoized to stay consistent)
+  const backgroundImage = useMemo(() => {
+    if (event.thumbnails.length === 0) {
+      return 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+    }
+    const randomIndex = Math.floor(Math.random() * event.thumbnails.length);
+    return `url(${event.thumbnails[randomIndex].url})`;
+  }, [event.thumbnails]);
 
   return (
     <Box
+      component="section"
       sx={{
         position: 'relative',
-        width: '100%',
-        minHeight: { xs: '70vh', md: '60vh' },
-        mb: 4,
-        borderRadius: 4,
+        width: '100vw',
+        minHeight: '100vh',
+        height: '100vh',
+        scrollSnapAlign: 'start',
+        WebkitScrollSnapAlign: 'start',
+        scrollSnapStop: 'always',
+        WebkitScrollSnapStop: 'always',
         overflow: 'hidden',
-        boxShadow: '0 20px 60px rgba(0,0,0,0.15)',
+        flexShrink: 0,
         transition: 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)',
         animation: `fadeInUp 0.6s ease-out ${index * 0.1}s both`,
         '@keyframes fadeInUp': {
@@ -52,8 +61,6 @@ export default function EventCard({ event, index }: EventCardProps) {
           },
         },
         '&:hover': {
-          transform: 'translateY(-8px)',
-          boxShadow: '0 30px 80px rgba(0,0,0,0.2)',
           '& .event-overlay': {
             background: 'linear-gradient(to right, rgba(0,0,0,0.5), rgba(0,0,0,0.2))',
           },
@@ -101,11 +108,14 @@ export default function EventCard({ event, index }: EventCardProps) {
           height: '100%',
           display: 'flex',
           flexDirection: 'column',
-          justifyContent: 'flex-end',
-          p: { xs: 3, md: 6 },
+          justifyContent: 'center',
+          alignItems: 'flex-start',
+          p: { xs: 3, md: 8 },
+          maxWidth: '1400px',
+          mx: 'auto',
         }}
       >
-        <Box sx={{ maxWidth: { xs: '100%', md: '60%' } }}>
+        <Box sx={{ maxWidth: { xs: '100%', md: '70%' } }}>
           {/* Date Badge */}
           <Stack direction="row" spacing={1} sx={{ mb: 2 }}>
             <Chip
@@ -211,30 +221,31 @@ export default function EventCard({ event, index }: EventCardProps) {
         <Box
           sx={{
             position: 'absolute',
-            bottom: 24,
-            right: 24,
+            bottom: 32,
+            right: 32,
             zIndex: 2,
             display: 'flex',
-            gap: 1,
+            gap: 1.5,
           }}
         >
-          {event.thumbnails.slice(1, 4).map((thumb, idx) => (
+          {event.thumbnails.slice(0, Math.min(4, event.thumbnails.length)).map((thumb, idx) => (
             <Box
               key={idx}
               sx={{
-                width: 60,
-                height: 60,
-                borderRadius: 1.5,
+                width: 80,
+                height: 80,
+                borderRadius: 2,
                 backgroundImage: `url(${thumb.url})`,
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
-                border: '2px solid rgba(255,255,255,0.3)',
-                boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
-                opacity: 0.8,
+                border: '3px solid rgba(255,255,255,0.4)',
+                boxShadow: '0 8px 24px rgba(0,0,0,0.4)',
+                opacity: 0.7,
                 transition: 'all 0.3s ease',
                 '&:hover': {
                   opacity: 1,
-                  transform: 'scale(1.1)',
+                  transform: 'scale(1.15) translateY(-4px)',
+                  border: '3px solid rgba(255,255,255,0.8)',
                 },
               }}
             />
