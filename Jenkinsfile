@@ -56,7 +56,7 @@ pipeline {
             }
             steps {
                 container(name: 'helm') {
-                    sh 'helm upgrade --install photo-gallery .ci/chart --namespace development'
+                    sh 'helm upgrade --install photo-gallery .ci/chart --namespace development --app-version ${VERSION}'
                 }
             }
         }

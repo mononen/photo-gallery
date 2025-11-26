@@ -5,7 +5,8 @@ image:
   pullPolicy: IfNotPresent
   tag: ""  # Defaults to chart appVersion if not specified
 
-imagePullSecrets: []
+imagePullSecrets:
+  - name: harbor
 
 service:
   type: ClusterIP
