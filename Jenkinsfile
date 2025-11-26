@@ -49,5 +49,14 @@ pipeline {
                 }
             }
         }
+        stage("Development") {
+            agent { label 'helm-deploy'}
+            when {
+                branch 'master'
+            }
+            steps {
+                sh 'helm upgrade --install photo-gallery .ci/chart --namespace development'
+            }
+        }
     }
 }
