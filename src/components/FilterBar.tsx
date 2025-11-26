@@ -29,7 +29,7 @@ export default function FilterBar({
   filters,
   onFiltersChange,
 }: FilterBarProps) {
-  const [expanded, setExpanded] = useState(true);
+  const [expanded, setExpanded] = useState(false);
   const eventTypes = getEventTypes(events);
   const years = getYears(events);
 

@@ -1,8 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import { Box, Typography, IconButton, Slide } from '@mui/material';
-import { Menu as MenuIcon, Close } from '@mui/icons-material';
+import { Box, Typography, IconButton, Collapse, Container } from '@mui/material';
+import { Menu as MenuIcon } from '@mui/icons-material';
 import { Event } from '@/types/event';
 import { FilterOptions } from '@/lib/filters';
 import FilterBar from './FilterBar';
@@ -17,15 +17,18 @@ export default function Navigation({ events, filters, onFiltersChange }: Navigat
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <>
+    <Box
+      sx={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        zIndex: 300,
+      }}
+    >
       {/* Navigation bar */}
       <Box
         sx={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          right: 0,
-          zIndex: 300,
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
@@ -64,19 +67,16 @@ export default function Navigation({ events, filters, onFiltersChange }: Navigat
             transition: 'all 0.3s ease',
           }}
         >
-          {menuOpen ? <Close /> : <MenuIcon />}
+          <MenuIcon />
         </IconButton>
       </Box>
 
-      {/* Side Panel with Filters */}
-      <Slide direction="left" in={menuOpen} mountOnEnter unmountOnExit>
+      {/* Dropdown Menu with Filters */}
+      <Collapse in={menuOpen}>
         <Box
           sx={{
-            position: 'fixed',
-            top: 80,
-            right: { xs: 16, sm: 24 },
-            zIndex: 350,
-            width: { xs: 'calc(100% - 32px)', sm: '400px', md: '450px' },
+            px: { xs: 2, md: 4 },
+            pb: 2,
           }}
         >
           <FilterBar
@@ -85,25 +85,8 @@ export default function Navigation({ events, filters, onFiltersChange }: Navigat
             onFiltersChange={onFiltersChange}
           />
         </Box>
-      </Slide>
-
-      {/* Backdrop overlay for mobile */}
-      {menuOpen && (
-        <Box
-          onClick={() => setMenuOpen(false)}
-          sx={{
-            position: 'fixed',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            zIndex: 340,
-            backgroundColor: 'rgba(0, 0, 0, 0.5)',
-            display: { xs: 'block', sm: 'none' },
-          }}
-        />
-      )}
-    </>
+      </Collapse>
+    </Box>
   );
 }
 

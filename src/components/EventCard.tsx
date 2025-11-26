@@ -60,14 +60,6 @@ export default function EventCard({ event, index }: EventCardProps) {
             transform: 'translateY(0)',
           },
         },
-        '&:hover': {
-          '& .event-overlay': {
-            background: 'linear-gradient(to right, rgba(0,0,0,0.5), rgba(0,0,0,0.2))',
-          },
-          '& .event-image': {
-            transform: 'scale(1.05)',
-          },
-        },
       }}
     >
       {/* Background Image */}
