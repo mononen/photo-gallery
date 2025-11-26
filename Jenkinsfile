@@ -20,7 +20,7 @@ pipeline {
     stages {
         stage("Build") {
             when {
-                branch 'main'
+                branch 'master'
             }
             failFast true
             parallel {
