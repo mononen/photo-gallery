@@ -52,13 +52,25 @@ pipeline {
         stage("Development") {
             agent { label 'helm-deploy'}
             when {
+                branch 'dev'
+            }
+            steps {
+                container(name: 'helm') {
+                    sh 'helm upgrade --install photo-gallery .ci/chart --namespace development -f .ci/config/dev.yaml --version ${VERSION} --set image.tag=${VERSION}'
+                }
+            }
+        }
+        stage("Production") {
+            agent { label 'helm-deploy'}
+            when {
                 branch 'master'
             }
             steps {
                 container(name: 'helm') {
-                    sh 'helm upgrade --install photo-gallery .ci/chart --namespace development --version ${VERSION} --set image.tag=${VERSION}'
+                    sh 'helm upgrade --install photo-gallery .ci/chart --namespace production -f .ci/config/prd.yaml --version ${VERSION} --set image.tag=${VERSION}'
                 }
             }
         }
+
     }
 }

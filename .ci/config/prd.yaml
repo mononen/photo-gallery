@@ -1,0 +1,14 @@
+ingress:
+  enabled: true
+  className: "nginx"
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+  hosts:
+    - host: gallery.monomotion.org
+      paths:
+        - path: /
+          pathType: Prefix
+  tls:
+    - secretName: photo-gallery-tls
+      hosts:
+        - gallery.monomotion.org

@@ -1,0 +1,10 @@
+ingress:
+  hosts:
+    - host: gallery.adoah.dev
+      paths:
+        - path: /
+          pathType: Prefix
+  tls:
+    - secretName: photo-gallery-dev-tls
+      hosts:
+        - gallery.adoah.dev
