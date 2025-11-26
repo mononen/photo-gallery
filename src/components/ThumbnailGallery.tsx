@@ -1,6 +1,7 @@
 'use client';
 
 import { Box, ImageList, ImageListItem } from '@mui/material';
+import Image from 'next/image';
 import { Event } from '@/types/event';
 
 interface ThumbnailGalleryProps {
@@ -54,14 +55,13 @@ export default function ThumbnailGallery({
       }}
     >
       {thumbnails.map((thumbnail, index) => (
-        <ImageListItem key={index}>
-          <img
+        <ImageListItem key={index} sx={{ position: 'relative' }}>
+          <Image
             src={thumbnail.url}
             alt={`Thumbnail ${index + 1}`}
-            loading="lazy"
+            fill
+            sizes="(max-width: 768px) 50vw, 33vw"
             style={{
-              width: '100%',
-              height: '100%',
               objectFit: 'cover',
             }}
           />
