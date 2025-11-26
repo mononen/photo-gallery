@@ -34,9 +34,9 @@ pipeline {
                             sh '''
                                 buildctl \
                                     --addr tcp://buildkit.adoah.dev:1234 \
-                                    --tlscert /home/user/.certs/tls.crt \
-                                    --tlskey /home/user/.certs/tls.key \
-                                    --tlscacert /home/user/.certs/ca.pem \
+                                    --tlscert /root/.certs/tls.crt \
+                                    --tlskey /root/.certs/tls.key \
+                                    --tlscacert /root/.ca/ca.pem \
                                 build \
                                     --frontend dockerfile.v0 \
                                     --local context=. \
