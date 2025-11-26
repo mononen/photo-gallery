@@ -1,0 +1,7 @@
+apiVersion: v2
+name: photo-gallery
+description: A Next.js photo gallery application
+type: application
+version: 1.0.0
+appVersion: "1.0.0"
+
