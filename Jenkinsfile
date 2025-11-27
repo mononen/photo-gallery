@@ -42,7 +42,7 @@ pipeline {
                                     --local context=. \
                                     --local dockerfile=. \
                                     --opt target=production \
-                                    --output type=image,name=${REGISTRY}/${IMAGE}:${VERSION},push=true
+                                    --output type=image,name=${REGISTRY}/${IMAGE}:${env.BRANCH}-${VERSION},push=true
                             '''
                         }
                     }
@@ -56,7 +56,7 @@ pipeline {
             }
             steps {
                 container(name: 'helm') {
-                    sh 'helm upgrade --install photo-gallery .ci/chart --namespace development -f .ci/config/dev.yaml --version ${VERSION} --set image.tag=${VERSION}'
+                    sh 'helm upgrade --install photo-gallery .ci/chart --namespace development -f .ci/config/dev.yaml --version ${VERSION} --set image.tag=${env.BRANCH}-${VERSION}'
                 }
             }
         }
