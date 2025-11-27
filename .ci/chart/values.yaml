@@ -17,7 +17,10 @@ ingress:
   enabled: true
   className: "nginx"
   annotations:
-    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    cert-manager.io/cluster-issuer: letsencrypt-production
+    external-dns.alpha.kubernetes.io/target: "ipv4.monomotion.org"
+    external-dns.alpha.kubernetes.io/cloudflare-proxied: "true"
+    external-dns/is-public: "true"
   hosts:
     - host: gallery.monomotion.org
       paths:
