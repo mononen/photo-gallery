@@ -39,7 +39,7 @@ pipeline {
                                     --local context=. \
                                     --local dockerfile=. \
                                     --opt target=production \
-                                    --output type=image,name=${REGISTRY}/${IMAGE}:${env.BRANCH}-${VERSION},push=true
+                                    --output type=image,name=${REGISTRY}/${IMAGE}:${env.BRANCH_NAME}-${VERSION},push=true
                             '''
                         }
                     }
