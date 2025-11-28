@@ -7,7 +7,7 @@ pipeline {
     
     environment {
         REGISTRY = 'registry.adoah.dev'
-        VERSION = " ${env.BRANCH_NAME}-${BUILD_NUMBER}"
+        VERSION = "${env.BRANCH_NAME}-${BUILD_NUMBER}"
     }
 
     post {
