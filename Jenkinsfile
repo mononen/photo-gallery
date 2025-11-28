@@ -19,9 +19,6 @@ pipeline {
 
     stages {
         stage("Build") {
-            when {
-                branch 'master'
-            }
             failFast true
             parallel {
                 stage("Build") {
