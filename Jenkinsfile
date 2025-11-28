@@ -7,7 +7,7 @@ pipeline {
     
     environment {
         REGISTRY = 'registry.adoah.dev'
-        VERSION = "${BUILD_NUMBER}"
+        VERSION = "${env.BRANCH_NAME}-${BUILD_NUMBER}"
     }
 
     post {
@@ -19,9 +19,6 @@ pipeline {
 
     stages {
         stage("Build") {
-            when {
-                branch 'master'
-            }
             failFast true
             parallel {
                 stage("Build") {
@@ -56,7 +53,7 @@ pipeline {
             }
             steps {
                 container(name: 'helm') {
-                    sh 'helm upgrade --install photo-gallery .ci/chart --namespace development -f .ci/config/dev.yaml --version ${VERSION} --set image.tag=${VERSION}'
+                    sh 'helm upgrade --install photo-gallery .ci/chart --namespace development -f .ci/config/dev.yaml --version ${BUILD_NUMBER} --set image.tag=${VERSION}'
                 }
             }
         }
@@ -67,7 +64,7 @@ pipeline {
             }
             steps {
                 container(name: 'helm') {
-                    sh 'helm upgrade --install photo-gallery .ci/chart --namespace production -f .ci/config/prd.yaml --version ${VERSION} --set image.tag=${VERSION}'
+                    sh 'helm upgrade --install photo-gallery .ci/chart --namespace production -f .ci/config/prd.yaml --version ${BUILD_NUMBER} --set image.tag=${VERSION}'
                 }
             }
         }
