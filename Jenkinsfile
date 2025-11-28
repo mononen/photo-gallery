@@ -53,7 +53,7 @@ pipeline {
             }
             steps {
                 container(name: 'helm') {
-                    sh 'helm upgrade --install photo-gallery .ci/chart --namespace development -f .ci/config/dev.yaml --version ${VERSION} --set image.tag=${env.BRANCH}-${VERSION}'
+                    sh 'helm upgrade --install photo-gallery .ci/chart --namespace development -f .ci/config/dev.yaml --version ${BUILD_NUMBER} --set image.tag=${VERSION}'
                 }
             }
         }
@@ -64,7 +64,7 @@ pipeline {
             }
             steps {
                 container(name: 'helm') {
-                    sh 'helm upgrade --install photo-gallery .ci/chart --namespace production -f .ci/config/prd.yaml --version ${VERSION} --set image.tag=${VERSION}'
+                    sh 'helm upgrade --install photo-gallery .ci/chart --namespace production -f .ci/config/prd.yaml --version ${BUILD_NUMBER} --set image.tag=${VERSION}'
                 }
             }
         }
