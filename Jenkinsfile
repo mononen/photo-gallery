@@ -7,7 +7,7 @@ pipeline {
     
     environment {
         REGISTRY = 'registry.adoah.dev'
-        VERSION = "${BUILD_NUMBER}"
+        VERSION = " ${env.BRANCH_NAME}-${BUILD_NUMBER}"
     }
 
     post {
@@ -39,7 +39,7 @@ pipeline {
                                     --local context=. \
                                     --local dockerfile=. \
                                     --opt target=production \
-                                    --output type=image,name=${REGISTRY}/${IMAGE}:${env.BRANCH_NAME}-${VERSION},push=true
+                                    --output type=image,name=${REGISTRY}/${IMAGE}:${VERSION},push=true
                             '''
                         }
                     }
