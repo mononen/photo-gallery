@@ -47,25 +47,28 @@ export default function EventCard({ event, index }: EventCardProps) {
   // Auto-select initial thumbnail and when orientation changes
   useEffect(() => {
     if (getOrientationMatchedThumbnails.length > 0) {
-      // Check if the currently selected thumbnail is already orientation-appropriate
-      const currentThumbnail = event.thumbnails[selectedThumbnailIndex];
-      const isCurrentThumbnailAppropriate = getOrientationMatchedThumbnails.some(
-        t => t.url === currentThumbnail?.url
-      );
-      
-      // Only auto-select a new thumbnail if current one doesn't match the orientation
-      if (!isCurrentThumbnailAppropriate) {
-        // Find a random orientation-matched thumbnail and get its index in the full array
-        const randomMatchedThumb = getOrientationMatchedThumbnails[
-          Math.floor(Math.random() * getOrientationMatchedThumbnails.length)
-        ];
-        const fullArrayIndex = event.thumbnails.findIndex(t => t.url === randomMatchedThumb.url);
-        if (fullArrayIndex !== -1) {
-          setSelectedThumbnailIndex(fullArrayIndex);
+      setSelectedThumbnailIndex(prevIndex => {
+        // Check if the currently selected thumbnail is already orientation-appropriate
+        const currentThumbnail = event.thumbnails[prevIndex];
+        const isCurrentThumbnailAppropriate = getOrientationMatchedThumbnails.some(
+          t => t.url === currentThumbnail?.url
+        );
+        
+        // Only auto-select a new thumbnail if current one doesn't match the orientation
+        if (!isCurrentThumbnailAppropriate) {
+          // Find a random orientation-matched thumbnail and get its index in the full array
+          const randomMatchedThumb = getOrientationMatchedThumbnails[
+            Math.floor(Math.random() * getOrientationMatchedThumbnails.length)
+          ];
+          const fullArrayIndex = event.thumbnails.findIndex(t => t.url === randomMatchedThumb.url);
+          return fullArrayIndex !== -1 ? fullArrayIndex : prevIndex;
         }
-      }
+        
+        // Keep the current selection if it's appropriate
+        return prevIndex;
+      });
     }
-  }, [getOrientationMatchedThumbnails, viewportOrientation, event.thumbnails, selectedThumbnailIndex]);
+  }, [getOrientationMatchedThumbnails, viewportOrientation, event.thumbnails]);
 
   useEffect(() => {
     // Function to detect viewport orientation
