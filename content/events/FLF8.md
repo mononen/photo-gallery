@@ -9,5 +9,5 @@ albums:
   - name: "All Group Photos"
     url: "https://drive.google.com/drive/folders/1S5nj9oc2_OdP_-SxhbVr-FjcEt6FxmAl?usp=sharing"
 thumbnails:
-  - url: "https://photos.fife.usercontent.google.com/pw/AP1GczNy8_k79LuyVYvPGkqabPQo5T1izuzpqJaICYiY7d0ZrFpdq_ObelDL=w3368-h2000-s-no?authuser=1"
+  - url: "https://lh3.googleusercontent.com/pw/AP1GczP2L8vVHWGS63TZiwOlRfqFR82hRX2-3YryyMXZg8Mbdny0iD4Ak14oyD8mW2R-k6iKHaYvkZ2P74JSc-Wmn1atCYYCflBr9Yt-DpLFCRFMNaW2LHEQ2pweNCG2Wi0dco_jIzchgrA572LpSVcCAXcj=w3368-h2000-s-no?authuser=0"
 ---
