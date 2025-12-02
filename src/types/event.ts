@@ -10,6 +10,7 @@ export interface Thumbnail {
 
 export interface Event {
   title: string;
+  event: string;
   date: string;
   description: string;
   albums: Album[];

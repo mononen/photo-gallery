@@ -91,6 +91,7 @@ export function getAllEvents(): Event[] {
       return {
         slug,
         title: data.title || '',
+        event: data.event || '',
         date: data.date || '',
         description: data.description || '',
         albums: data.albums || [],
@@ -127,6 +128,7 @@ export function getEventBySlug(slug: string): Event | null {
     return {
       slug,
       title: data.title || '',
+      event: data.event || '',
       date: data.date || '',
       description: data.description || '',
       albums: data.albums || [],
