@@ -77,13 +77,17 @@ export default function Navigation({ events, filters, onFiltersChange }: Navigat
           sx={{
             px: { xs: 2, md: 4 },
             pb: 2,
+            display: 'flex',
+            justifyContent: { xs: 'stretch', md: 'flex-end' },
           }}
         >
-          <FilterBar
-            events={events}
-            filters={filters}
-            onFiltersChange={onFiltersChange}
-          />
+          <Box sx={{ width: { xs: '100%', md: '25%' } }}>
+            <FilterBar
+              events={events}
+              filters={filters}
+              onFiltersChange={onFiltersChange}
+            />
+          </Box>
         </Box>
       </Collapse>
     </Box>
