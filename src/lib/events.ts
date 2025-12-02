@@ -3,9 +3,58 @@ import path from 'path';
 import matter from 'gray-matter';
 import { remark } from 'remark';
 import html from 'remark-html';
-import { Event } from '@/types/event';
+import { Event, Thumbnail } from '@/types/event';
 
 const eventsDirectory = path.join(process.cwd(), 'content', 'events');
+
+/**
+ * Parses Google Photos URL to extract dimensions and determine orientation
+ * @param url - Google Photos URL containing width and height parameters (e.g., w1986-h1324)
+ * @returns orientation - 'portrait', 'landscape', 'square', or undefined if dimensions can't be parsed
+ */
+function detectThumbnailOrientation(url: string): 'portrait' | 'landscape' | 'square' | undefined {
+  try {
+    // Google Photos URLs contain dimensions in format: w{width}-h{height}
+    const widthMatch = url.match(/w(\d+)-h(\d+)/);
+    
+    if (!widthMatch) {
+      return undefined;
+    }
+    
+    const width = parseInt(widthMatch[1], 10);
+    const height = parseInt(widthMatch[2], 10);
+    
+    if (isNaN(width) || isNaN(height)) {
+      return undefined;
+    }
+    
+    // Calculate aspect ratio to determine orientation
+    const aspectRatio = width / height;
+    const threshold = 0.05; // 5% threshold for considering square
+    
+    if (Math.abs(aspectRatio - 1) < threshold) {
+      return 'square';
+    } else if (aspectRatio > 1) {
+      return 'landscape';
+    } else {
+      return 'portrait';
+    }
+  } catch (error) {
+    return undefined;
+  }
+}
+
+/**
+ * Processes thumbnails to add orientation metadata
+ * @param thumbnails - Array of thumbnail objects with URLs
+ * @returns Array of thumbnails with orientation field populated
+ */
+function processThumbnails(thumbnails: Thumbnail[]): Thumbnail[] {
+  return thumbnails.map(thumbnail => ({
+    ...thumbnail,
+    orientation: detectThumbnailOrientation(thumbnail.url),
+  }));
+}
 
 export function getAllEvents(): Event[] {
   // Check if directory exists
@@ -45,7 +94,7 @@ export function getAllEvents(): Event[] {
         date: data.date || '',
         description: data.description || '',
         albums: data.albums || [],
-        thumbnails: data.thumbnails || [],
+        thumbnails: processThumbnails(data.thumbnails || []),
         content: processedContent,
       } as Event;
     });
@@ -81,7 +130,7 @@ export function getEventBySlug(slug: string): Event | null {
       date: data.date || '',
       description: data.description || '',
       albums: data.albums || [],
-      thumbnails: data.thumbnails || [],
+      thumbnails: processThumbnails(data.thumbnails || []),
       content: processedContent,
     } as Event;
   } catch (error) {

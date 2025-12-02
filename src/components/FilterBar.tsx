@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Box,
   TextField,
@@ -22,14 +22,23 @@ interface FilterBarProps {
   events: Event[];
   filters: FilterOptions;
   onFiltersChange: (filters: FilterOptions) => void;
+  isOpen?: boolean;
 }
 
 export default function FilterBar({
   events,
   filters,
   onFiltersChange,
+  isOpen = true,
 }: FilterBarProps) {
   const [expanded, setExpanded] = useState(false);
+
+  // Close expanded filters when menu is closed
+  useEffect(() => {
+    if (!isOpen) {
+      setExpanded(false);
+    }
+  }, [isOpen]);
   const eventTypes = getEventTypes(events);
   const years = getYears(events);
 
@@ -69,17 +78,7 @@ export default function FilterBar({
   const activeFilterCount = [filters.eventType, filters.year, filters.searchQuery].filter(Boolean).length;
 
   return (
-    <Box
-      sx={{
-        background: 'rgba(255, 255, 255, 0.85)',
-        backdropFilter: 'blur(20px) saturate(180%)',
-        borderRadius: 3,
-        border: '1px solid rgba(255, 255, 255, 0.3)',
-        boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
-        overflow: 'hidden',
-        transition: 'all 0.3s ease',
-      }}
-    >
+    <Box>
         {/* Compact search bar */}
         <Stack
           direction="row"

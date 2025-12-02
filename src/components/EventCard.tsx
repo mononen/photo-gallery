@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import {
   Typography,
   Box,
@@ -25,14 +25,77 @@ export default function EventCard({ event, index }: EventCardProps) {
   const formattedDate = format(new Date(event.date), 'MMMM d, yyyy');
   const year = new Date(event.date).getFullYear();
 
-  // Randomly select a thumbnail for background (memoized to stay consistent)
+  // Track viewport orientation
+  const [viewportOrientation, setViewportOrientation] = useState<'portrait' | 'landscape'>('landscape');
+  
+  // Track selected thumbnail index (in the full thumbnails array)
+  const [selectedThumbnailIndex, setSelectedThumbnailIndex] = useState<number>(0);
+
+  // Get the orientation-matched thumbnail pool
+  const getOrientationMatchedThumbnails = useMemo(() => {
+    if (event.thumbnails.length === 0) return [];
+
+    // Filter thumbnails by matching orientation
+    const matchingThumbnails = event.thumbnails.filter(
+      thumb => thumb.orientation === viewportOrientation || thumb.orientation === 'square'
+    );
+
+    // Use matching thumbnails if available, otherwise fall back to all thumbnails
+    return matchingThumbnails.length > 0 ? matchingThumbnails : event.thumbnails;
+  }, [event.thumbnails, viewportOrientation]);
+
+  // Auto-select initial thumbnail and when orientation changes
+  useEffect(() => {
+    if (getOrientationMatchedThumbnails.length > 0) {
+      // Check if the currently selected thumbnail is already orientation-appropriate
+      const currentThumbnail = event.thumbnails[selectedThumbnailIndex];
+      const isCurrentThumbnailAppropriate = getOrientationMatchedThumbnails.some(
+        t => t.url === currentThumbnail?.url
+      );
+      
+      // Only auto-select a new thumbnail if current one doesn't match the orientation
+      if (!isCurrentThumbnailAppropriate) {
+        // Find a random orientation-matched thumbnail and get its index in the full array
+        const randomMatchedThumb = getOrientationMatchedThumbnails[
+          Math.floor(Math.random() * getOrientationMatchedThumbnails.length)
+        ];
+        const fullArrayIndex = event.thumbnails.findIndex(t => t.url === randomMatchedThumb.url);
+        if (fullArrayIndex !== -1) {
+          setSelectedThumbnailIndex(fullArrayIndex);
+        }
+      }
+    }
+  }, [getOrientationMatchedThumbnails, viewportOrientation, event.thumbnails, selectedThumbnailIndex]);
+
+  useEffect(() => {
+    // Function to detect viewport orientation
+    const updateOrientation = () => {
+      const isPortrait = window.innerHeight > window.innerWidth;
+      setViewportOrientation(isPortrait ? 'portrait' : 'landscape');
+    };
+
+    // Set initial orientation
+    updateOrientation();
+
+    // Listen for window resize and orientation changes
+    window.addEventListener('resize', updateOrientation);
+    window.addEventListener('orientationchange', updateOrientation);
+
+    return () => {
+      window.removeEventListener('resize', updateOrientation);
+      window.removeEventListener('orientationchange', updateOrientation);
+    };
+  }, []);
+
+  // Get the background image based on selected thumbnail
   const backgroundImage = useMemo(() => {
     if (event.thumbnails.length === 0) {
       return 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
     }
-    const randomIndex = Math.floor(Math.random() * event.thumbnails.length);
-    return `url(${event.thumbnails[randomIndex].url})`;
-  }, [event.thumbnails]);
+    
+    const selectedThumbnail = event.thumbnails[selectedThumbnailIndex] || event.thumbnails[0];
+    return `url(${selectedThumbnail.url})`;
+  }, [event.thumbnails, selectedThumbnailIndex]);
 
   return (
     <Box
@@ -65,6 +128,7 @@ export default function EventCard({ event, index }: EventCardProps) {
       {/* Background Image */}
       <Box
         className="event-image"
+        key={selectedThumbnailIndex}
         sx={{
           position: 'absolute',
           top: 0,
@@ -74,7 +138,16 @@ export default function EventCard({ event, index }: EventCardProps) {
           backgroundImage,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
-          transition: 'transform 0.6s ease',
+          transition: 'opacity 0.5s ease-in-out, transform 0.6s ease',
+          animation: 'fadeIn 0.5s ease-in-out',
+          '@keyframes fadeIn': {
+            from: {
+              opacity: 0.7,
+            },
+            to: {
+              opacity: 1,
+            },
+          },
         }}
       />
 
@@ -209,39 +282,53 @@ export default function EventCard({ event, index }: EventCardProps) {
       </Box>
 
       {/* Thumbnail Grid (subtle bottom right corner) */}
-      {event.thumbnails.length > 1 && !isMobile && (
+      {event.thumbnails.length > 1 && (
         <Box
           sx={{
             position: 'absolute',
-            bottom: 32,
-            right: 32,
+            bottom: { xs: 16, md: 32 },
+            right: { xs: 16, md: 32 },
             zIndex: 2,
             display: 'flex',
-            gap: 1.5,
+            gap: { xs: 1, md: 1.5 },
           }}
         >
-          {event.thumbnails.slice(0, Math.min(4, event.thumbnails.length)).map((thumb, idx) => (
-            <Box
-              key={idx}
-              sx={{
-                width: 80,
-                height: 80,
-                borderRadius: 2,
-                backgroundImage: `url(${thumb.url})`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-                border: '3px solid rgba(255,255,255,0.4)',
-                boxShadow: '0 8px 24px rgba(0,0,0,0.4)',
-                opacity: 0.7,
-                transition: 'all 0.3s ease',
-                '&:hover': {
-                  opacity: 1,
-                  transform: 'scale(1.15) translateY(-4px)',
-                  border: '3px solid rgba(255,255,255,0.8)',
-                },
-              }}
-            />
-          ))}
+          {event.thumbnails.slice(0, Math.min(4, event.thumbnails.length)).map((thumb, idx) => {
+            // Check if this thumbnail is the currently selected one
+            const isSelected = selectedThumbnailIndex === idx;
+            
+            return (
+              <Box
+                key={idx}
+                onClick={() => {
+                  console.log('Thumbnail clicked:', idx);
+                  setSelectedThumbnailIndex(idx);
+                }}
+                sx={{
+                  width: { xs: 60, md: 80 },
+                  height: { xs: 60, md: 80 },
+                  borderRadius: { xs: 1.5, md: 2 },
+                  backgroundImage: `url(${thumb.url})`,
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center',
+                  border: isSelected 
+                    ? { xs: '2px solid rgba(255,255,255,1)', md: '3px solid rgba(255,255,255,1)' }
+                    : { xs: '2px solid rgba(255,255,255,0.4)', md: '3px solid rgba(255,255,255,0.4)' },
+                  boxShadow: isSelected
+                    ? '0 8px 32px rgba(255,255,255,0.3)'
+                    : '0 8px 24px rgba(0,0,0,0.4)',
+                  opacity: isSelected ? 1 : 0.6,
+                  cursor: 'pointer',
+                  transition: 'all 0.3s ease',
+                  '&:hover': {
+                    opacity: 1,
+                    transform: { xs: 'scale(1.1)', md: 'scale(1.15) translateY(-4px)' },
+                    border: { xs: '2px solid rgba(255,255,255,0.9)', md: '3px solid rgba(255,255,255,0.9)' },
+                  },
+                }}
+              />
+            );
+          })}
         </Box>
       )}
     </Box>
