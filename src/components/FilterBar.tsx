@@ -167,7 +167,7 @@ export default function FilterBar({
                     },
                   }}
                 >
-                  <MenuItem value="">All Types</MenuItem>
+                  <MenuItem value="">All Events</MenuItem>
                   {eventTypes.map((type) => (
                     <MenuItem key={type} value={type}>
                       {type}

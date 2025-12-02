@@ -10,30 +10,14 @@ export interface FilterOptions {
 }
 
 /**
- * Infers event type from event name by removing year and common suffixes
- * Examples:
- * - "Wedding 2024" -> "Wedding"
- * - "Concert 2023" -> "Concert"
- * - "Birthday Party - 2024" -> "Birthday Party"
- */
-export function inferEventType(title: string): string {
-  // Remove year patterns (4 digits, possibly with dashes/spaces around)
-  let type = title.replace(/\s*-?\s*\d{4}\s*-?\s*/g, '').trim();
-  
-  // Remove common suffixes
-  type = type.replace(/\s*-\s*.*$/, '').trim();
-  
-  // If nothing left, return original title
-  return type || title;
-}
-
-/**
  * Extract all unique event types from events
  */
 export function getEventTypes(events: Event[]): string[] {
   const types = new Set<string>();
   events.forEach((event) => {
-    types.add(inferEventType(event.title));
+    if (event.event) {
+      types.add(event.event);
+    }
   });
   return Array.from(types).sort();
 }
@@ -64,7 +48,7 @@ export function filterAndSortEvents(
   // Filter by event type
   if (options.eventType) {
     filtered = filtered.filter(
-      (event) => inferEventType(event.title) === options.eventType
+      (event) => event.event === options.eventType
     );
   }
 

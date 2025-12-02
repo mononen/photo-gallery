@@ -1,5 +1,6 @@
 ---
-title: "OCSF 4"
+title: "Oak City Shred Fest 4"
+event: "OCSF"
 date: "2024-05-04"
 description: "Photos from the 4th annual Oak City Shred Fest"
 albums:
