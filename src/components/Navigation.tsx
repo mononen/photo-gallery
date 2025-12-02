@@ -54,7 +54,7 @@ export default function Navigation({ events, filters, onFiltersChange }: Navigat
             backgroundClip: 'text',
           }}
         >
-          Photo Gallery
+          MonoMotion Gallery
         </Typography>
 
         {/* FilterBar + Hamburger Menu Container */}
