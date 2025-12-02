@@ -20,15 +20,27 @@ export default function DisclaimerModal() {
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   useEffect(() => {
-    // Check if user has already accepted the disclaimer
-    const hasAccepted = localStorage.getItem('disclaimerAccepted');
-    if (!hasAccepted) {
+    // Check if user has already accepted the disclaimer recently (within 15 minutes)
+    const acceptedTimestamp = localStorage.getItem('disclaimerAcceptedAt');
+    
+    if (!acceptedTimestamp) {
+      // Never accepted before
       setOpen(true);
+    } else {
+      const acceptedTime = parseInt(acceptedTimestamp, 10);
+      const currentTime = Date.now();
+      const fifteenMinutes = 15 * 60 * 1000; // 15 minutes in milliseconds
+      
+      // Check if more than 15 minutes have passed
+      if (currentTime - acceptedTime > fifteenMinutes) {
+        setOpen(true);
+      }
     }
   }, []);
 
   const handleAccept = () => {
-    localStorage.setItem('disclaimerAccepted', 'true');
+    // Store the current timestamp
+    localStorage.setItem('disclaimerAcceptedAt', Date.now().toString());
     setOpen(false);
   };
 
@@ -133,7 +145,7 @@ export default function DisclaimerModal() {
                 variant={isMobile ? 'body2' : 'body1'}
                 sx={{ lineHeight: 1.7 }}
               >
-                <strong>Attribution Required:</strong> If you share or post these photos elsewhere, you must provide proper credit to the photographer.
+                <strong>Attribution Required:</strong> These photos are provided free of charge. If you share or post these photos elsewhere, please give credit to the photographer by tagging or mention.
               </Typography>
             </li>
           </Box>
