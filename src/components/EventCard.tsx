@@ -27,6 +27,30 @@ export default function EventCard({ event, index }: EventCardProps) {
 
   // Track viewport orientation
   const [viewportOrientation, setViewportOrientation] = useState<'portrait' | 'landscape'>('landscape');
+  
+  // Track selected thumbnail index
+  const [selectedThumbnailIndex, setSelectedThumbnailIndex] = useState<number>(0);
+
+  // Get the orientation-matched thumbnail pool
+  const getOrientationMatchedThumbnails = useMemo(() => {
+    if (event.thumbnails.length === 0) return [];
+
+    // Filter thumbnails by matching orientation
+    const matchingThumbnails = event.thumbnails.filter(
+      thumb => thumb.orientation === viewportOrientation || thumb.orientation === 'square'
+    );
+
+    // Use matching thumbnails if available, otherwise fall back to all thumbnails
+    return matchingThumbnails.length > 0 ? matchingThumbnails : event.thumbnails;
+  }, [event.thumbnails, viewportOrientation]);
+
+  // Auto-select initial thumbnail and when orientation changes
+  useEffect(() => {
+    if (getOrientationMatchedThumbnails.length > 0) {
+      const randomIndex = Math.floor(Math.random() * getOrientationMatchedThumbnails.length);
+      setSelectedThumbnailIndex(randomIndex);
+    }
+  }, [getOrientationMatchedThumbnails, viewportOrientation]);
 
   useEffect(() => {
     // Function to detect viewport orientation
@@ -48,24 +72,18 @@ export default function EventCard({ event, index }: EventCardProps) {
     };
   }, []);
 
-  // Select a thumbnail that matches the viewport orientation (memoized to stay consistent)
+  // Get the background image based on selected thumbnail
   const backgroundImage = useMemo(() => {
     if (event.thumbnails.length === 0) {
       return 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
     }
 
-    // Filter thumbnails by matching orientation
-    const matchingThumbnails = event.thumbnails.filter(
-      thumb => thumb.orientation === viewportOrientation || thumb.orientation === 'square'
-    );
-
-    // Use matching thumbnails if available, otherwise fall back to all thumbnails
-    const thumbnailPool = matchingThumbnails.length > 0 ? matchingThumbnails : event.thumbnails;
+    const thumbnailPool = getOrientationMatchedThumbnails;
+    if (thumbnailPool.length === 0) return 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
     
-    // Select a random thumbnail from the pool
-    const randomIndex = Math.floor(Math.random() * thumbnailPool.length);
-    return `url(${thumbnailPool[randomIndex].url})`;
-  }, [event.thumbnails, viewportOrientation]);
+    const selectedThumbnail = thumbnailPool[selectedThumbnailIndex] || thumbnailPool[0];
+    return `url(${selectedThumbnail.url})`;
+  }, [event.thumbnails, getOrientationMatchedThumbnails, selectedThumbnailIndex]);
 
   return (
     <Box
@@ -253,28 +271,45 @@ export default function EventCard({ event, index }: EventCardProps) {
             gap: 1.5,
           }}
         >
-          {event.thumbnails.slice(0, Math.min(4, event.thumbnails.length)).map((thumb, idx) => (
-            <Box
-              key={idx}
-              sx={{
-                width: 80,
-                height: 80,
-                borderRadius: 2,
-                backgroundImage: `url(${thumb.url})`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-                border: '3px solid rgba(255,255,255,0.4)',
-                boxShadow: '0 8px 24px rgba(0,0,0,0.4)',
-                opacity: 0.7,
-                transition: 'all 0.3s ease',
-                '&:hover': {
-                  opacity: 1,
-                  transform: 'scale(1.15) translateY(-4px)',
-                  border: '3px solid rgba(255,255,255,0.8)',
-                },
-              }}
-            />
-          ))}
+          {event.thumbnails.slice(0, Math.min(4, event.thumbnails.length)).map((thumb, idx) => {
+            // Check if this thumbnail is the currently selected one
+            const isSelected = getOrientationMatchedThumbnails[selectedThumbnailIndex]?.url === thumb.url;
+            
+            return (
+              <Box
+                key={idx}
+                onClick={() => {
+                  // Find the index of this thumbnail in the orientation-matched pool
+                  const poolIndex = getOrientationMatchedThumbnails.findIndex(t => t.url === thumb.url);
+                  if (poolIndex !== -1) {
+                    setSelectedThumbnailIndex(poolIndex);
+                  }
+                }}
+                sx={{
+                  width: 80,
+                  height: 80,
+                  borderRadius: 2,
+                  backgroundImage: `url(${thumb.url})`,
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center',
+                  border: isSelected 
+                    ? '3px solid rgba(255,255,255,1)' 
+                    : '3px solid rgba(255,255,255,0.4)',
+                  boxShadow: isSelected
+                    ? '0 8px 32px rgba(255,255,255,0.3)'
+                    : '0 8px 24px rgba(0,0,0,0.4)',
+                  opacity: isSelected ? 1 : 0.6,
+                  cursor: 'pointer',
+                  transition: 'all 0.3s ease',
+                  '&:hover': {
+                    opacity: 1,
+                    transform: 'scale(1.15) translateY(-4px)',
+                    border: '3px solid rgba(255,255,255,0.9)',
+                  },
+                }}
+              />
+            );
+          })}
         </Box>
       )}
     </Box>
