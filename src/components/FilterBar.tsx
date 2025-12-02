@@ -69,17 +69,7 @@ export default function FilterBar({
   const activeFilterCount = [filters.eventType, filters.year, filters.searchQuery].filter(Boolean).length;
 
   return (
-    <Box
-      sx={{
-        background: 'rgba(255, 255, 255, 0.85)',
-        backdropFilter: 'blur(20px) saturate(180%)',
-        borderRadius: 3,
-        border: '1px solid rgba(255, 255, 255, 0.3)',
-        boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
-        overflow: 'hidden',
-        transition: 'all 0.3s ease',
-      }}
-    >
+    <Box>
         {/* Compact search bar */}
         <Stack
           direction="row"
