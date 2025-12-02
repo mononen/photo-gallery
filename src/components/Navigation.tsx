@@ -30,7 +30,7 @@ export default function Navigation({ events, filters, onFiltersChange }: Navigat
       <Box
         sx={{
           display: 'flex',
-          alignItems: 'center',
+          alignItems: 'flex-start',
           justifyContent: 'space-between',
           px: { xs: 2, md: 4 },
           py: 2,
@@ -61,13 +61,14 @@ export default function Navigation({ events, filters, onFiltersChange }: Navigat
         <Box
           sx={{
             display: 'flex',
-            alignItems: 'flex-start',
+            alignItems: 'center',
             gap: 0,
             background: 'rgba(255, 255, 255, 0.85)',
             backdropFilter: 'blur(20px) saturate(180%)',
             borderRadius: 3,
             border: '1px solid rgba(255, 255, 255, 0.3)',
             boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
+            minHeight: '48px',
           }}
         >
           {/* FilterBar content - slides in by width change */}
