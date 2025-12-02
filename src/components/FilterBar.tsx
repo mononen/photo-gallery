@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Box,
   TextField,
@@ -22,14 +22,23 @@ interface FilterBarProps {
   events: Event[];
   filters: FilterOptions;
   onFiltersChange: (filters: FilterOptions) => void;
+  isOpen?: boolean;
 }
 
 export default function FilterBar({
   events,
   filters,
   onFiltersChange,
+  isOpen = true,
 }: FilterBarProps) {
   const [expanded, setExpanded] = useState(false);
+
+  // Close expanded filters when menu is closed
+  useEffect(() => {
+    if (!isOpen) {
+      setExpanded(false);
+    }
+  }, [isOpen]);
   const eventTypes = getEventTypes(events);
   const years = getYears(events);
 

@@ -86,6 +86,7 @@ export default function Navigation({ events, filters, onFiltersChange }: Navigat
                 events={events}
                 filters={filters}
                 onFiltersChange={onFiltersChange}
+                isOpen={menuOpen}
               />
             </Box>
           </Box>
