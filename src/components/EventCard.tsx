@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import {
   Typography,
   Box,
@@ -25,14 +25,47 @@ export default function EventCard({ event, index }: EventCardProps) {
   const formattedDate = format(new Date(event.date), 'MMMM d, yyyy');
   const year = new Date(event.date).getFullYear();
 
-  // Randomly select a thumbnail for background (memoized to stay consistent)
+  // Track viewport orientation
+  const [viewportOrientation, setViewportOrientation] = useState<'portrait' | 'landscape'>('landscape');
+
+  useEffect(() => {
+    // Function to detect viewport orientation
+    const updateOrientation = () => {
+      const isPortrait = window.innerHeight > window.innerWidth;
+      setViewportOrientation(isPortrait ? 'portrait' : 'landscape');
+    };
+
+    // Set initial orientation
+    updateOrientation();
+
+    // Listen for window resize and orientation changes
+    window.addEventListener('resize', updateOrientation);
+    window.addEventListener('orientationchange', updateOrientation);
+
+    return () => {
+      window.removeEventListener('resize', updateOrientation);
+      window.removeEventListener('orientationchange', updateOrientation);
+    };
+  }, []);
+
+  // Select a thumbnail that matches the viewport orientation (memoized to stay consistent)
   const backgroundImage = useMemo(() => {
     if (event.thumbnails.length === 0) {
       return 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
     }
-    const randomIndex = Math.floor(Math.random() * event.thumbnails.length);
-    return `url(${event.thumbnails[randomIndex].url})`;
-  }, [event.thumbnails]);
+
+    // Filter thumbnails by matching orientation
+    const matchingThumbnails = event.thumbnails.filter(
+      thumb => thumb.orientation === viewportOrientation || thumb.orientation === 'square'
+    );
+
+    // Use matching thumbnails if available, otherwise fall back to all thumbnails
+    const thumbnailPool = matchingThumbnails.length > 0 ? matchingThumbnails : event.thumbnails;
+    
+    // Select a random thumbnail from the pool
+    const randomIndex = Math.floor(Math.random() * thumbnailPool.length);
+    return `url(${thumbnailPool[randomIndex].url})`;
+  }, [event.thumbnails, viewportOrientation]);
 
   return (
     <Box

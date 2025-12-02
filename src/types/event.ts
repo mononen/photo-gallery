@@ -5,6 +5,7 @@ export interface Album {
 
 export interface Thumbnail {
   url: string;
+  orientation?: 'portrait' | 'landscape' | 'square';
 }
 
 export interface Event {
