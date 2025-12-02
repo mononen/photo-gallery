@@ -119,6 +119,7 @@ export default function EventCard({ event, index }: EventCardProps) {
       {/* Background Image */}
       <Box
         className="event-image"
+        key={selectedThumbnailIndex}
         sx={{
           position: 'absolute',
           top: 0,
@@ -128,7 +129,16 @@ export default function EventCard({ event, index }: EventCardProps) {
           backgroundImage,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
-          transition: 'transform 0.6s ease',
+          transition: 'opacity 0.5s ease-in-out, transform 0.6s ease',
+          animation: 'fadeIn 0.5s ease-in-out',
+          '@keyframes fadeIn': {
+            from: {
+              opacity: 0.7,
+            },
+            to: {
+              opacity: 1,
+            },
+          },
         }}
       />
 
@@ -263,15 +273,15 @@ export default function EventCard({ event, index }: EventCardProps) {
       </Box>
 
       {/* Thumbnail Grid (subtle bottom right corner) */}
-      {event.thumbnails.length > 1 && !isMobile && (
+      {event.thumbnails.length > 1 && (
         <Box
           sx={{
             position: 'absolute',
-            bottom: 32,
-            right: 32,
+            bottom: { xs: 16, md: 32 },
+            right: { xs: 16, md: 32 },
             zIndex: 2,
             display: 'flex',
-            gap: 1.5,
+            gap: { xs: 1, md: 1.5 },
           }}
         >
           {event.thumbnails.slice(0, Math.min(4, event.thumbnails.length)).map((thumb, idx) => {
@@ -286,15 +296,15 @@ export default function EventCard({ event, index }: EventCardProps) {
                   setSelectedThumbnailIndex(idx);
                 }}
                 sx={{
-                  width: 80,
-                  height: 80,
-                  borderRadius: 2,
+                  width: { xs: 60, md: 80 },
+                  height: { xs: 60, md: 80 },
+                  borderRadius: { xs: 1.5, md: 2 },
                   backgroundImage: `url(${thumb.url})`,
                   backgroundSize: 'cover',
                   backgroundPosition: 'center',
                   border: isSelected 
-                    ? '3px solid rgba(255,255,255,1)' 
-                    : '3px solid rgba(255,255,255,0.4)',
+                    ? { xs: '2px solid rgba(255,255,255,1)', md: '3px solid rgba(255,255,255,1)' }
+                    : { xs: '2px solid rgba(255,255,255,0.4)', md: '3px solid rgba(255,255,255,0.4)' },
                   boxShadow: isSelected
                     ? '0 8px 32px rgba(255,255,255,0.3)'
                     : '0 8px 24px rgba(0,0,0,0.4)',
@@ -303,8 +313,8 @@ export default function EventCard({ event, index }: EventCardProps) {
                   transition: 'all 0.3s ease',
                   '&:hover': {
                     opacity: 1,
-                    transform: 'scale(1.15) translateY(-4px)',
-                    border: '3px solid rgba(255,255,255,0.9)',
+                    transform: { xs: 'scale(1.1)', md: 'scale(1.15) translateY(-4px)' },
+                    border: { xs: '2px solid rgba(255,255,255,0.9)', md: '3px solid rgba(255,255,255,0.9)' },
                   },
                 }}
               />
