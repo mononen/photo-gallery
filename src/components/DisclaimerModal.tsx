@@ -146,7 +146,7 @@ export default function DisclaimerModal() {
               lineHeight: 1.7,
             }}
           >
-            By clicking "I Accept the Terms" below, you acknowledge that you have read and agree to abide by these terms.
+            By clicking &ldquo;I Accept the Terms&rdquo; below, you acknowledge that you have read and agree to abide by these terms.
           </Typography>
         </Box>
       </DialogContent>
