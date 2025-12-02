@@ -28,7 +28,7 @@ export default function EventCard({ event, index }: EventCardProps) {
   // Track viewport orientation
   const [viewportOrientation, setViewportOrientation] = useState<'portrait' | 'landscape'>('landscape');
   
-  // Track selected thumbnail index
+  // Track selected thumbnail index (in the full thumbnails array)
   const [selectedThumbnailIndex, setSelectedThumbnailIndex] = useState<number>(0);
 
   // Get the orientation-matched thumbnail pool
@@ -47,10 +47,16 @@ export default function EventCard({ event, index }: EventCardProps) {
   // Auto-select initial thumbnail and when orientation changes
   useEffect(() => {
     if (getOrientationMatchedThumbnails.length > 0) {
-      const randomIndex = Math.floor(Math.random() * getOrientationMatchedThumbnails.length);
-      setSelectedThumbnailIndex(randomIndex);
+      // Find a random orientation-matched thumbnail and get its index in the full array
+      const randomMatchedThumb = getOrientationMatchedThumbnails[
+        Math.floor(Math.random() * getOrientationMatchedThumbnails.length)
+      ];
+      const fullArrayIndex = event.thumbnails.findIndex(t => t.url === randomMatchedThumb.url);
+      if (fullArrayIndex !== -1) {
+        setSelectedThumbnailIndex(fullArrayIndex);
+      }
     }
-  }, [getOrientationMatchedThumbnails, viewportOrientation]);
+  }, [getOrientationMatchedThumbnails, viewportOrientation, event.thumbnails]);
 
   useEffect(() => {
     // Function to detect viewport orientation
@@ -77,13 +83,10 @@ export default function EventCard({ event, index }: EventCardProps) {
     if (event.thumbnails.length === 0) {
       return 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
     }
-
-    const thumbnailPool = getOrientationMatchedThumbnails;
-    if (thumbnailPool.length === 0) return 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
     
-    const selectedThumbnail = thumbnailPool[selectedThumbnailIndex] || thumbnailPool[0];
+    const selectedThumbnail = event.thumbnails[selectedThumbnailIndex] || event.thumbnails[0];
     return `url(${selectedThumbnail.url})`;
-  }, [event.thumbnails, getOrientationMatchedThumbnails, selectedThumbnailIndex]);
+  }, [event.thumbnails, selectedThumbnailIndex]);
 
   return (
     <Box
@@ -273,17 +276,14 @@ export default function EventCard({ event, index }: EventCardProps) {
         >
           {event.thumbnails.slice(0, Math.min(4, event.thumbnails.length)).map((thumb, idx) => {
             // Check if this thumbnail is the currently selected one
-            const isSelected = getOrientationMatchedThumbnails[selectedThumbnailIndex]?.url === thumb.url;
+            const isSelected = selectedThumbnailIndex === idx;
             
             return (
               <Box
                 key={idx}
                 onClick={() => {
-                  // Find the index of this thumbnail in the orientation-matched pool
-                  const poolIndex = getOrientationMatchedThumbnails.findIndex(t => t.url === thumb.url);
-                  if (poolIndex !== -1) {
-                    setSelectedThumbnailIndex(poolIndex);
-                  }
+                  console.log('Thumbnail clicked:', idx);
+                  setSelectedThumbnailIndex(idx);
                 }}
                 sx={{
                   width: 80,
