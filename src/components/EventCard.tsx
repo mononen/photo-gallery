@@ -239,6 +239,7 @@ export default function EventCard({ event, index }: EventCardProps) {
               textShadow: '0 2px 8px rgba(0,0,0,0.5)',
               lineHeight: 1.6,
               maxWidth: '600px',
+              whiteSpace: 'pre-line',
             }}
           >
             {event.description}
