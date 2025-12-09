@@ -2,7 +2,7 @@
 title: "Oak City Shred Fest 5"
 event: "OCSF"
 date: "2025-04-26"
-description: "Photos from the 5th annual Oak City Shred Fest. \nIf you did something crazy or fun on camera, you're in the top 10%; otherwise, you're in the 'all photos' category. Additional photos shot by Canada Dave. \nShot on my personal camera and cameras from Armor-Dilloz." 
+description: "Photos from the 5th annual Oak City Shred Fest. \nIf you did something crazy or fun on camera, you're in the top 10%; otherwise, you're in the 'all photos' category. Additional photos shot by [Canada Dave](https://www.instagram.com/nyx_design_dave/). \nShot on my personal cameras and cameras from Armor-Dilloz." 
 albums:
   - name: "10% Best Photos"
     url: "https://photos.app.goo.gl/1sAcynuYV6H4GyQP6"
