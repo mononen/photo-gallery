@@ -11,7 +11,7 @@ My name is Alex, and I'm typically riding around a OneWheel event with a big cam
 
 ## My Story
 
-I started photography as a hobby and took a few classes on film photography in college, and fell in love. 
+I started photography as a hobby when I was in high school and took a few classes on film photography in college, and fell in love with capturing things that happened in my life.
 
 In 2021 I tried out a friends OneWheel and was hooked. I bought my own Pint, XR, then began building my own.
 Moved down to the Triangle of NC, and joined [Oak City OneWheel](https://www.oakcityonewheel.com/), where I met some lifelong friends.
@@ -19,7 +19,7 @@ Moved down to the Triangle of NC, and joined [Oak City OneWheel](https://www.oak
 ## Hardware
 
 ### Cameras
-I have a Sony A7RII that I will shoot on, or more often 'loan' out to friends
+I have a Sony A7RII that I will shoot on, or more often 'loan' out to friends.
 I also frequently borrow a camera or two from [Cory Boehne](https://www.facebook.com/cory.boehne) of [Armor-Dilloz](https://armor-dilloz.com/)
 
 ### Boards
