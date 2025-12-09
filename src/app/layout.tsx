@@ -23,8 +23,8 @@ export default function RootLayout({
         <ThemeProvider>
           <DisclaimerModal />
           <SocialLinks
-            facebookUrl="https://facebook.com/your-page"
-            instagramUrl="https://instagram.com/your-profile"
+            facebookUrl="https://www.facebook.com/almo310/"
+            instagramUrl="https://www.instagram.com/anmonono/"
           />
           {children}
         </ThemeProvider>
