@@ -64,7 +64,9 @@ function processThumbnails(thumbnails: Thumbnail[]): Thumbnail[] {
 function processMarkdown(text: string): string {
   if (!text) return '';
   try {
-    const result = remark().use(html).processSync(text);
+    // Convert single newlines to double newlines for proper paragraph breaks
+    const normalizedText = text.replace(/\n/g, '\n\n');
+    const result = remark().use(html).processSync(normalizedText);
     // Add target="_blank" and rel="noopener noreferrer" to all links
     return result.toString().replace(/<a href="/g, '<a target="_blank" rel="noopener noreferrer" href="');
   } catch (error) {
