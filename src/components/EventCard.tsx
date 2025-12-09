@@ -132,7 +132,6 @@ export default function EventCard({ event, index, isFirstCard = false }: EventCa
       {/* Background Image */}
       <Box
         className="event-image"
-        key={selectedThumbnailIndex}
         sx={{
           position: 'absolute',
           top: 0,
