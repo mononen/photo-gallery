@@ -2,7 +2,7 @@
 title: "FLoat Life Fest 8"
 event: "FLF"
 date: "2025-09-13"
-description: "Photos from the 8th annual Float Life Fest \nIf you did something crazy/fun on camera, you're in the 10% best otherwise, you're in the 'all photos' category"
+description: "Photos from the 8th annual Float Life Fest \nIf you did something crazy or fun on camera, you're in the top 10%; otherwise, you're in the 'all photos' category.\nShot entirely on Armor-Dilloz cameras"
 albums:
   - name: "Small Group Photo"
     url: "https://photos.app.goo.gl/gtU8UcbS82j55BUy6"
