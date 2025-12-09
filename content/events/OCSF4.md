@@ -2,9 +2,9 @@
 title: "Oak City Shred Fest 4"
 event: "OCSF"
 date: "2024-05-04"
-description: "Photos from the 4th annual Oak City Shred Fest"
+description: "Photos from the 4th annual Oak City Shred Fest \nIf you did something crazy or fun on camera, you're in the top 10%; otherwise, you're in the 'all photos' category. \nShot on my personal cameras and cameras from Armor-Dilloz."
 albums:
-  - name: "Select Photos"
+  - name: "10% Best Photos"
     url: "https://photos.app.goo.gl/NE5WsNxVp8wU15fq9"
   - name: "Full Album"
     url: "https://photos.app.goo.gl/4ZuZcb7y3bs7fosL9"
