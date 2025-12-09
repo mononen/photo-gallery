@@ -147,6 +147,17 @@ export default function DisclaimerModal() {
               >
                 <strong>Attribution Required:</strong> These photos are provided free of charge. If you share or post these photos elsewhere, please give credit to the photographer by tagging or mention.
               </Typography>
+              <Typography
+                variant={isMobile ? 'caption' : 'body2'}
+                sx={{ 
+                  lineHeight: 1.6,
+                  mt: 0.75,
+                  display: 'block',
+                  color: 'text.secondary',
+                }}
+              >
+                Using a photo as your profile picture? Cropping may cut off the watermark—please credit the photographer in a comment or your post instead!
+              </Typography>
             </li>
           </Box>
 
