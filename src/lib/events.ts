@@ -56,6 +56,21 @@ function processThumbnails(thumbnails: Thumbnail[]): Thumbnail[] {
   }));
 }
 
+/**
+ * Processes markdown text to HTML
+ * @param text - Markdown text to process
+ * @returns HTML string
+ */
+function processMarkdown(text: string): string {
+  if (!text) return '';
+  try {
+    const result = remark().use(html).processSync(text);
+    return result.toString();
+  } catch (error) {
+    return text;
+  }
+}
+
 export function getAllEvents(): Event[] {
   // Check if directory exists
   if (!fs.existsSync(eventsDirectory)) {
@@ -78,14 +93,8 @@ export function getAllEvents(): Event[] {
       const { data, content } = matter(fileContents);
 
       // Process markdown content to HTML
-      let processedContent = '';
-      try {
-        const result = remark().use(html).processSync(content);
-        processedContent = result.toString();
-      } catch (error) {
-        // If markdown processing fails, use empty string
-        processedContent = '';
-      }
+      const processedContent = processMarkdown(content);
+      const processedDescription = processMarkdown(data.description || '');
 
       // Combine the data with the slug and content
       return {
@@ -93,7 +102,7 @@ export function getAllEvents(): Event[] {
         title: data.title || '',
         event: data.event || '',
         date: data.date || '',
-        description: data.description || '',
+        description: processedDescription,
         albums: data.albums || [],
         thumbnails: processThumbnails(data.thumbnails || []),
         content: processedContent,
@@ -117,20 +126,15 @@ export function getEventBySlug(slug: string): Event | null {
     const fileContents = fs.readFileSync(fullPath, 'utf8');
     const { data, content } = matter(fileContents);
     
-    let processedContent = '';
-    try {
-      const result = remark().use(html).processSync(content);
-      processedContent = result.toString();
-    } catch (error) {
-      processedContent = '';
-    }
+    const processedContent = processMarkdown(content);
+    const processedDescription = processMarkdown(data.description || '');
 
     return {
       slug,
       title: data.title || '',
       event: data.event || '',
       date: data.date || '',
-      description: data.description || '',
+      description: processedDescription,
       albums: data.albums || [],
       thumbnails: processThumbnails(data.thumbnails || []),
       content: processedContent,
