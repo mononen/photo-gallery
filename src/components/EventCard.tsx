@@ -231,19 +231,33 @@ export default function EventCard({ event, index }: EventCardProps) {
           </Typography>
 
           {/* Description */}
-          <Typography
-            variant={isMobile ? 'body2' : 'body1'}
+          <Box
+            dangerouslySetInnerHTML={{ __html: event.description }}
             sx={{
               color: 'rgba(255,255,255,0.95)',
               mb: 3,
               textShadow: '0 2px 8px rgba(0,0,0,0.5)',
               lineHeight: 1.6,
               maxWidth: '600px',
-              whiteSpace: 'pre-line',
+              fontSize: isMobile ? '0.875rem' : '1rem',
+              '& p': {
+                margin: 0,
+                marginBottom: 1,
+                '&:last-child': {
+                  marginBottom: 0,
+                },
+              },
+              '& a': {
+                color: 'rgba(255,255,255,1)',
+                textDecoration: 'underline',
+                textUnderlineOffset: '2px',
+                transition: 'opacity 0.2s ease',
+                '&:hover': {
+                  opacity: 0.8,
+                },
+              },
             }}
-          >
-            {event.description}
-          </Typography>
+          />
 
           {/* Album Links */}
           <Stack
