@@ -1,10 +1,12 @@
 import { Box } from '@mui/material';
 import { getAllEvents } from '@/lib/events';
+import { getAboutMe } from '@/lib/about';
 import PageContent from '@/components/PageContent';
 import { Fragment } from 'react';
 
 export default function Home() {
   const events = getAllEvents();
+  const aboutMe = getAboutMe();
 
   return (
     <Fragment>
@@ -33,7 +35,7 @@ export default function Home() {
         }}
       />
 
-      <PageContent events={events} />
+      <PageContent events={events} aboutMe={aboutMe} />
 
       {/* Scroll indicator */}
       <Box
@@ -84,4 +86,3 @@ export default function Home() {
     </Fragment>
   );
 }
-

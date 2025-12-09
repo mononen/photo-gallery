@@ -17,9 +17,10 @@ import { Event } from '@/types/event';
 interface EventCardProps {
   event: Event;
   index: number;
+  isFirstCard?: boolean;
 }
 
-export default function EventCard({ event, index }: EventCardProps) {
+export default function EventCard({ event, index, isFirstCard = false }: EventCardProps) {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const formattedDate = format(new Date(event.date), 'MMMM d, yyyy');
@@ -142,13 +143,32 @@ export default function EventCard({ event, index }: EventCardProps) {
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           transition: 'opacity 0.5s ease-in-out, transform 0.6s ease',
-          animation: 'fadeIn 0.5s ease-in-out',
+          animation: isFirstCard 
+            ? 'fadeIn 0.5s ease-in-out, peekBounce 4s ease-in-out 2s infinite'
+            : 'fadeIn 0.5s ease-in-out',
           '@keyframes fadeIn': {
             from: {
               opacity: 0.7,
             },
             to: {
               opacity: 1,
+            },
+          },
+          '@keyframes peekBounce': {
+            '0%, 100%': {
+              transform: 'translateY(0)',
+            },
+            '20%': {
+              transform: 'translateY(-120px)',
+            },
+            '35%': {
+              transform: 'translateY(-40px)',
+            },
+            '50%': {
+              transform: 'translateY(-80px)',
+            },
+            '65%': {
+              transform: 'translateY(0)',
             },
           },
         }}
@@ -165,6 +185,9 @@ export default function EventCard({ event, index }: EventCardProps) {
           bottom: 0,
           background: 'linear-gradient(to right, rgba(0,0,0,0.7), rgba(0,0,0,0.3))',
           transition: 'background 0.6s ease',
+          ...(isFirstCard && {
+            animation: 'peekBounce 4s ease-in-out 2s infinite',
+          }),
         }}
       />
 
@@ -309,6 +332,9 @@ export default function EventCard({ event, index }: EventCardProps) {
             zIndex: 2,
             display: 'flex',
             gap: { xs: 1, md: 1.5 },
+            ...(isFirstCard && {
+              animation: 'peekBounce 4s ease-in-out 2s infinite',
+            }),
           }}
         >
           {event.thumbnails.slice(0, Math.min(4, event.thumbnails.length)).map((thumb, idx) => {
