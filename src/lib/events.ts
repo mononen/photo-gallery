@@ -59,13 +59,14 @@ function processThumbnails(thumbnails: Thumbnail[]): Thumbnail[] {
 /**
  * Processes markdown text to HTML
  * @param text - Markdown text to process
- * @returns HTML string
+ * @returns HTML string with links opening in new tabs
  */
 function processMarkdown(text: string): string {
   if (!text) return '';
   try {
     const result = remark().use(html).processSync(text);
-    return result.toString();
+    // Add target="_blank" and rel="noopener noreferrer" to all links
+    return result.toString().replace(/<a href="/g, '<a target="_blank" rel="noopener noreferrer" href="');
   } catch (error) {
     return text;
   }
