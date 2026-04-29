@@ -5,9 +5,9 @@ date: "2025-04-26"
 description: "Photos from the 5th annual Oak City Shred Fest. \nIf you did something crazy or fun on camera, you're in the highlights; otherwise, photos of you are in 'all photos' Additional photos shot by [Canada Dave](https://www.instagram.com/nyx_design_dave/). \nShot on my personal cameras and cameras from Armor-Dilloz." 
 albums:
   - name: "Highlights"
-    url: "https://photos.app.goo.gl/1sAcynuYV6H4GyQP6"
+    url: "https://photos.app.goo.gl/TcQDzesCQ9np51Fx9"
   - name: "All Photos"
-    url: "https://photos.app.goo.gl/s6fHwKThu6gddX548"
+    url: "https://photos.app.goo.gl/toDZVPw8ME5stcaq5"
   - name: "Dave's Photos"
     url: "https://photos.app.goo.gl/EBJBn7KirwpVb15E6"
 thumbnails:
