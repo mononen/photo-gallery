@@ -11,8 +11,8 @@ albums:
   - name: "Dave's Photos"
     url: "https://photos.app.goo.gl/EBJBn7KirwpVb15E6"
 thumbnails:
-  - url: "https://lh3.googleusercontent.com/pw/AP1GczMId1Bi9k0FVOzNRtGfdK5JtdYv7HaS9x3zZWcJ6jmH22ARr1_SdbqjyPawMigHUuRAM9XmHYyDozeOD5VU0YJ_i0B6AO6AwoheNwFaCYEX2lSMx5Ja2ev4uggv6BuYZgedCT1tWW4YNLr1F7SVNGwm=w883-h1324-s-no?authuser=1"
-  - url: "https://lh3.googleusercontent.com/pw/AP1GczMZmr9oa6V1Yi-WBPSzea_2cAbAxa7X1qZOdeDFgjYvqNHfJGomKQFx01hs7faVIdaPrg90ke-_ZKqK_H6pgUzu1ckf7pR0hdaYSaGniYpUE1lgU7XlBkBdOId8IAueHWaGe2YOc-VbBgJ5kNRu__JO=w883-h1324-s-no?authuser=1"
-  - url: "https://lh3.googleusercontent.com/pw/AP1GczPQSbLr-QeCovN2vwkzglYh28dufxc8g6JaAGcorqb4UlqOcZitA_CcTVpChkdFIAfttiCwYhDHkgVILX6v-G1B9ztcsbuSM-NF8GTCI5m-DK8rUSvVw1zNNYPOkyAmcXXZBb8h3pFR3sQj0H1ovfAx=w3392-h2262-s-no?authuser=1"
-  - url: "https://lh3.googleusercontent.com/pw/AP1GczMNuPa2S0DV-rdzcp9pvv37hdIpEeIN7GekfWrI7McsQPTs-cm5Nr63S1fwbrUclSRKT43ynINJT6qedJBEK532666XSkhJm3n54AKazHNUv1gyYn1dKRKmJ88A-MRV3Zx81P7qZs7Ui3juEeqZ4ivt=w3392-h2262-s-no?authuser=1"
+  - url: "https://lh3.googleusercontent.com/pw/AP1GczPQ_l_jmyyle-WPpWGLnrV3FOr7yOndvddbC-A32fTyl6ECnOxGb6EP0ScQ0dNF9emF8Rux9zBbsVteTCsIfQKJi0tk8rXESYe1woYI_icD8NogevtbiPt_mJJHCIONDQktHsjs2ZsA1E-2HwIiqWK1xg=w1606-h2410-s-no?authuser=0"
+  - url: "https://lh3.googleusercontent.com/pw/AP1GczOiH4aqD1Cgw7cViYF3j9RZtj6BjaugwC-2bYiRZaaAwlUIZw25exVegiANnUR8z_08ijk7ihuo0BgdRBk6Z8zQxxD9IKPfYdz04Hcc1vZjdGjeclGWCJeGozbFxXsVD9s2uveMOJwAFXc2jXQefNDo_A=w1606-h2410-s-no?authuser=0"
+  - url: "https://lh3.googleusercontent.com/pw/AP1GczNhoN_POyuS8Sk5iAJ23VQNKr2J179G_YkxuWezVE1X8exbgewMSNgsC_4df49mpbt9HcnoEOkcXooLZHnKXPiXEkrbkGQqHMsKTANd0LokIbhp3qDvUv5R7vTbADWs488-sNVr4f-txwZ4KvX_j5kjwA=w3392-h2262-s-no?authuser=0"
+  - url: "https://lh3.googleusercontent.com/pw/AP1GczPWpjjSs2ObEqhsvKIH7jatuz-SQdW6LGFeDAU4v7kw1qPtqrmGPr_bTpc9rq2UGV_05SUkwmN964Yl6iwXp8ddh7gUuNKiczGmSw3BzgAXGBY5ntMyGWPcWt5ira-AcLCjdcH7RtsUfQ1TrTTzwZvlIw=w3392-h2262-s-no?authuser=0"
 ---
