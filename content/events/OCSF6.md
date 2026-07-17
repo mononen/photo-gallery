@@ -2,7 +2,7 @@
 title: "Oak City Shred Fest 6"
 event: "OCSF"
 date: "2026-04-25"
-description: "Photos from the 6th annual Oak City Shred Fest.\nMany more photos to come.\nShot on my personal cameras and cameras from Armor-Dilloz." 
+description: "Photos from the 6th annual Oak City Shred Fest.\nShot on my personal cameras and cameras from Armor-Dilloz." 
 albums:
   - name: "Highlights"
     url: "https://photos.app.goo.gl/TysU32DNqBb1fKjU6"
