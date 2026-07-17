@@ -145,6 +145,14 @@ export default function DisclaimerModal() {
                 variant={isMobile ? 'body2' : 'body1'}
                 sx={{ lineHeight: 1.7 }}
               >
+                <strong>No Public AI Model Input:</strong> Do not upload or submit these photos to publicly available AI tools or services (such as image generators, chatbots, or search engines). Many such services use submitted content to train or improve their models.
+              </Typography>
+            </li>
+            <li>
+              <Typography
+                variant={isMobile ? 'body2' : 'body1'}
+                sx={{ lineHeight: 1.7 }}
+              >
                 <strong>Attribution Required:</strong> These photos are provided free of charge. If you share or post these photos elsewhere, please give credit to the photographer by tagging or mention.
               </Typography>
               <Typography
