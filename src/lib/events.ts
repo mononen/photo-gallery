@@ -74,6 +74,26 @@ function processMarkdown(text: string): string {
   }
 }
 
+/**
+ * Determines whether an event is currently in the highlighted slot
+ * @param highlightUntil - Frontmatter date (YYYY-MM-DD) on which the highlight is removed
+ * @returns true if today is before the highlightUntil date
+ */
+function isHighlighted(highlightUntil: unknown): boolean {
+  if (!highlightUntil) return false;
+  // gray-matter parses unquoted YAML dates into Date objects
+  const until = highlightUntil instanceof Date
+    ? highlightUntil.toISOString().slice(0, 10)
+    : String(highlightUntil).slice(0, 10);
+  const now = new Date();
+  const today = [
+    now.getFullYear(),
+    String(now.getMonth() + 1).padStart(2, '0'),
+    String(now.getDate()).padStart(2, '0'),
+  ].join('-');
+  return today < until;
+}
+
 export function getAllEvents(): Event[] {
   // Check if directory exists
   if (!fs.existsSync(eventsDirectory)) {
@@ -109,6 +129,7 @@ export function getAllEvents(): Event[] {
         albums: data.albums || [],
         thumbnails: processThumbnails(data.thumbnails || []),
         content: processedContent,
+        highlighted: isHighlighted(data.highlightUntil),
       } as Event;
     });
 
@@ -141,6 +162,7 @@ export function getEventBySlug(slug: string): Event | null {
       albums: data.albums || [],
       thumbnails: processThumbnails(data.thumbnails || []),
       content: processedContent,
+      highlighted: isHighlighted(data.highlightUntil),
     } as Event;
   } catch (error) {
     return null;

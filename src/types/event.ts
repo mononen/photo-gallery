@@ -17,5 +17,6 @@ export interface Event {
   thumbnails: Thumbnail[];
   content?: string; // Markdown content
   slug: string; // Filename without extension
+  highlighted?: boolean; // True while today is before the `highlightUntil` frontmatter date
 }
 

@@ -73,6 +73,7 @@ Optional markdown content for additional details.
 - **description**: Short description of the event (required)
 - **albums**: Array of album objects with `name` and `url` (required)
 - **thumbnails**: Array of thumbnail objects with `url` (optional, but recommended)
+- **highlightUntil**: Date in YYYY-MM-DD format (optional). Until this date, the event is also shown in a highlighted slot right after the most recent event (before the About Me section), in addition to its normal chronological position. It's removed from the slot on this date. The page re-renders hourly, so no redeploy is needed.
 - **Content**: Optional markdown content below the frontmatter
 
 ### Event Type Filtering

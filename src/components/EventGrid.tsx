@@ -4,6 +4,7 @@ import { Fragment } from 'react';
 import { Typography, Box } from '@mui/material';
 import { Event } from '@/types/event';
 import { AboutMe } from '@/types/about';
+import { format } from 'date-fns';
 import EventCard from './EventCard';
 import AboutMeCard from './AboutMeCard';
 
@@ -13,6 +14,25 @@ interface EventGridProps {
 }
 
 export default function EventGrid({ events, aboutMe }: EventGridProps) {
+  // Highlighted posts are shown between the first post and the About Me section,
+  // in addition to their normal chronological slot. Skip the first post, since it's already on top.
+  const highlights = events.slice(1).filter((event) => event.highlighted);
+
+  // The peek strip at the bottom of the first card previews whichever section comes next
+  const peek = highlights.length > 0
+    ? {
+        title: highlights[0].title,
+        subtitle: format(new Date(highlights[0].date), 'MMMM d, yyyy'),
+        imageUrl: highlights[0].thumbnails[0]?.url,
+      }
+    : aboutMe
+      ? {
+          title: aboutMe.titles[0],
+          subtitle: aboutMe.titles[1],
+          imageUrl: aboutMe.images[0]?.url,
+        }
+      : null;
+
   if (events.length === 0) {
     return (
       <Box
@@ -65,8 +85,8 @@ export default function EventGrid({ events, aboutMe }: EventGridProps) {
     >
       {events.map((event, index) => (
         <Fragment key={event.slug}>
-          {/* First card with bounce animation (only if aboutMe exists) */}
-          {index === 0 && aboutMe ? (
+          {/* First card with bounce animation (only if there's a next section to peek at) */}
+          {index === 0 && peek ? (
             <Box
               sx={{
                 position: 'relative',
@@ -78,7 +98,7 @@ export default function EventGrid({ events, aboutMe }: EventGridProps) {
                 WebkitScrollSnapStop: 'always',
               }}
             >
-              {/* Peek preview of About Me at bottom - matches full card layout */}
+              {/* Peek preview of the next section at bottom - matches full card layout */}
               <Box
                 sx={{
                   position: 'absolute',
@@ -104,7 +124,7 @@ export default function EventGrid({ events, aboutMe }: EventGridProps) {
                   }}
                 >
                   <Box>
-                    {aboutMe.titles.length > 0 && (
+                    {peek.title && (
                       <Typography
                         variant="h4"
                         sx={{
@@ -114,24 +134,24 @@ export default function EventGrid({ events, aboutMe }: EventGridProps) {
                           mb: 0.5,
                         }}
                       >
-                        {aboutMe.titles[0]}
+                        {peek.title}
                       </Typography>
                     )}
-                    {aboutMe.titles.length > 1 && (
+                    {peek.subtitle && (
                       <Typography
                         variant="body1"
                         sx={{
                           color: 'rgba(255, 255, 255, 0.7)',
                         }}
                       >
-                        {aboutMe.titles[1]}
+                        {peek.subtitle}
                       </Typography>
                     )}
                   </Box>
                 </Box>
 
                 {/* Image section on right */}
-                {aboutMe.images.length > 0 && (
+                {peek.imageUrl && (
                   <Box
                     sx={{
                       display: { xs: 'none', md: 'block' },
@@ -147,7 +167,7 @@ export default function EventGrid({ events, aboutMe }: EventGridProps) {
                         left: 0,
                         right: 0,
                         bottom: 0,
-                        backgroundImage: `url(${aboutMe.images[0].url})`,
+                        backgroundImage: `url(${peek.imageUrl})`,
                         backgroundSize: 'cover',
                         backgroundPosition: 'center top',
                       }}
@@ -174,7 +194,18 @@ export default function EventGrid({ events, aboutMe }: EventGridProps) {
             <EventCard event={event} index={index} />
           )}
 
-          {/* Insert full AboutMe card after the first event */}
+          {/* Insert highlighted posts after the first event */}
+          {index === 0 &&
+            highlights.map((highlight) => (
+              <EventCard
+                key={`highlight-${highlight.slug}`}
+                event={highlight}
+                index={index}
+                isHighlight
+              />
+            ))}
+
+          {/* Insert full AboutMe card after the first event (and any highlights) */}
           {index === 0 && aboutMe && <AboutMeCard aboutMe={aboutMe} />}
         </Fragment>
       ))}

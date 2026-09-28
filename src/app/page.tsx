@@ -4,6 +4,9 @@ import { getAboutMe } from '@/lib/about';
 import PageContent from '@/components/PageContent';
 import { Fragment } from 'react';
 
+// Re-render hourly so highlighted posts drop off after their highlightUntil date
+export const revalidate = 3600;
+
 export default function Home() {
   const events = getAllEvents();
   const aboutMe = getAboutMe();

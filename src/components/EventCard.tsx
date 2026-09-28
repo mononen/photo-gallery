@@ -10,7 +10,7 @@ import {
   useTheme,
   useMediaQuery,
 } from '@mui/material';
-import { CalendarMonth, ArrowForward } from '@mui/icons-material';
+import { CalendarMonth, ArrowForward, Star } from '@mui/icons-material';
 import { format } from 'date-fns';
 import { Event } from '@/types/event';
 
@@ -18,9 +18,10 @@ interface EventCardProps {
   event: Event;
   index: number;
   isFirstCard?: boolean;
+  isHighlight?: boolean;
 }
 
-export default function EventCard({ event, index, isFirstCard = false }: EventCardProps) {
+export default function EventCard({ event, index, isFirstCard = false, isHighlight = false }: EventCardProps) {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const formattedDate = format(new Date(event.date), 'MMMM d, yyyy');
@@ -208,6 +209,21 @@ export default function EventCard({ event, index, isFirstCard = false }: EventCa
         <Box sx={{ maxWidth: { xs: '100%', md: '70%' } }}>
           {/* Date Badge */}
           <Stack direction="row" spacing={1} sx={{ mb: 2 }}>
+            {isHighlight && (
+              <Chip
+                icon={<Star sx={{ fontSize: '1rem' }} />}
+                label="Featured"
+                size={isMobile ? 'small' : 'medium'}
+                sx={{
+                  background: 'rgba(255, 255, 255, 0.9)',
+                  color: 'primary.main',
+                  fontWeight: 600,
+                  '& .MuiChip-icon': {
+                    color: 'primary.main',
+                  },
+                }}
+              />
+            )}
             <Chip
               icon={<CalendarMonth sx={{ fontSize: '1rem' }} />}
               label={formattedDate}
