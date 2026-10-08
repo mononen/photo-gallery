@@ -352,7 +352,7 @@ export default function EventCard({ event, index, isFirstCard = false, isHighlig
             }),
           }}
         >
-          {event.thumbnails.slice(0, Math.min(4, event.thumbnails.length)).map((thumb, idx) => {
+          {event.thumbnails.slice(0, 6).map((thumb, idx) => {
             // Check if this thumbnail is the currently selected one
             const isSelected = selectedThumbnailIndex === idx;
             
@@ -364,8 +364,8 @@ export default function EventCard({ event, index, isFirstCard = false, isHighlig
                   setSelectedThumbnailIndex(idx);
                 }}
                 sx={{
-                  width: { xs: 60, md: 80 },
-                  height: { xs: 60, md: 80 },
+                  width: { xs: 48, md: 80 },
+                  height: { xs: 48, md: 80 },
                   borderRadius: { xs: 1.5, md: 2 },
                   backgroundImage: `url(${thumb.url})`,
                   backgroundSize: 'cover',
