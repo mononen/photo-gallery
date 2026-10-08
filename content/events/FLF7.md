@@ -3,7 +3,7 @@ title: "FLoat Life Fest 7"
 event: "FLF"
 date: "2024-09-12"
 highlightUntil: "2026-12-30"
-description: "Photos from the 7th Float Life Fest \nThese photos were sorted fully autonomously using a series of image analysis heuristics that I built myself.\nThey're sorted in descending order - Bangers, Good, Mid. The categorization is primarily evaluated by the level of 'in-focus' the subject is.\nBecause this was binned by a piece of software, there are mistakes, so please scroll through all the albums.\nShot on my personal cameras and cameras from Armor-Dilloz"
+description: "Photos from the 7th Float Life Fest \nThese photos were sorted fully autonomously using a series of image analysis heuristics that I built myself. \nThey're sorted in descending order - Bangers, Good, Mid. The categorization is primarily evaluated by the level of 'in-focus' the subject is. \nBecause this was binned by a piece of software, there are mistakes, so please scroll through all the albums. \nShot on my personal cameras and cameras from Armor-Dilloz"
 albums:
   - name: "Bangers"
     url: "https://photos.app.goo.gl/wrsmuMdT1WUmRqxJA"
