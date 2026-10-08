@@ -14,6 +14,8 @@ import { CalendarMonth, ArrowForward, Star } from '@mui/icons-material';
 import { format } from 'date-fns';
 import { Event } from '@/types/event';
 
+const MAX_THUMBNAILS = 6;
+
 interface EventCardProps {
   event: Event;
   index: number;
@@ -30,21 +32,27 @@ export default function EventCard({ event, index, isFirstCard = false, isHighlig
   // Track viewport orientation
   const [viewportOrientation, setViewportOrientation] = useState<'portrait' | 'landscape'>('landscape');
   
-  // Track selected thumbnail index (in the full thumbnails array)
-  const [selectedThumbnailIndex, setSelectedThumbnailIndex] = useState<number>(0);
+  // Track selected thumbnail index (in the full thumbnails array); -1 until a random pick is made
+  const [selectedThumbnailIndex, setSelectedThumbnailIndex] = useState<number>(-1);
+
+  // Only the thumbnails shown in the strip are eligible, so the selection is always visible
+  const visibleThumbnails = useMemo(
+    () => event.thumbnails.slice(0, MAX_THUMBNAILS),
+    [event.thumbnails]
+  );
 
   // Get the orientation-matched thumbnail pool
   const getOrientationMatchedThumbnails = useMemo(() => {
-    if (event.thumbnails.length === 0) return [];
+    if (visibleThumbnails.length === 0) return [];
 
     // Filter thumbnails by matching orientation
-    const matchingThumbnails = event.thumbnails.filter(
+    const matchingThumbnails = visibleThumbnails.filter(
       thumb => thumb.orientation === viewportOrientation || thumb.orientation === 'square'
     );
 
     // Use matching thumbnails if available, otherwise fall back to all thumbnails
-    return matchingThumbnails.length > 0 ? matchingThumbnails : event.thumbnails;
-  }, [event.thumbnails, viewportOrientation]);
+    return matchingThumbnails.length > 0 ? matchingThumbnails : visibleThumbnails;
+  }, [visibleThumbnails, viewportOrientation]);
 
   // Auto-select initial thumbnail and when orientation changes
   useEffect(() => {
@@ -352,7 +360,7 @@ export default function EventCard({ event, index, isFirstCard = false, isHighlig
             }),
           }}
         >
-          {event.thumbnails.slice(0, 6).map((thumb, idx) => {
+          {visibleThumbnails.map((thumb, idx) => {
             // Check if this thumbnail is the currently selected one
             const isSelected = selectedThumbnailIndex === idx;
             
