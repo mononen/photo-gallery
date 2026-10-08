@@ -134,11 +134,18 @@ export function getAllEvents(): Event[] {
     });
 
   // Sort events by date (newest first)
-  return allEventsData.sort((a, b) => {
+  const sortedEvents = allEventsData.sort((a, b) => {
     const dateA = new Date(a.date).getTime();
     const dateB = new Date(b.date).getTime();
     return dateB - dateA;
   });
+
+  // Flag the most recent event
+  if (sortedEvents.length > 0) {
+    sortedEvents[0].latest = true;
+  }
+
+  return sortedEvents;
 }
 
 export function getEventBySlug(slug: string): Event | null {

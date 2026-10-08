@@ -12,6 +12,8 @@ albums:
     url: "https://photos.app.goo.gl/LPtmb2uQmitTeTWSA"
   - name: "Group Photo"
     url: "https://photos.app.goo.gl/EsTLXsqTkMuaBfDq9"
+  - name: "Podiums"
+    url: "https://photos.app.goo.gl/d84MVFtCj93P6VBr7"
 thumbnails:
   - url: "https://lh3.googleusercontent.com/pw/AP1GczMskTirtfL2xIsHki1yCRvxUjKGuveLF2UGZAqZCixzTlJDPMFNBsdGTISWjxi54d2icbaSfaUt8cjTACGfrKLJqwlbqiLMl6mVwEjI4I_2Xia6GfKkqoc3fiQr8DCtl3zZ9ou0r2vVp3WMDjcvev0qZw=w3392-h1394-s-no?authuser=0"
   - url: "https://lh3.googleusercontent.com/pw/AP1GczM0nKWpo36LRgBFQbEhvsx-5LO8MkqoB7oa6d3XNEHcvSMS-negZdAu0znYKzt9F5gfIvLoDnQmIb217uAlj-Z_LEzEBqiIaMBZQSaxKI39Gfgel2qdSQMQpXjolL0yikBtyg-iWs87F6BlntgS6YCW9w=w3612-h2408-s-no?authuser=0"

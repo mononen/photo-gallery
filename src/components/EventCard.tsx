@@ -10,11 +10,21 @@ import {
   useTheme,
   useMediaQuery,
 } from '@mui/material';
-import { CalendarMonth, ArrowForward, Star } from '@mui/icons-material';
+import { CalendarMonth, ArrowForward, Star, NewReleases } from '@mui/icons-material';
 import { format } from 'date-fns';
 import { Event } from '@/types/event';
 
 const MAX_THUMBNAILS = 6;
+
+// Shared style for the "Latest" / "Featured" flag chips
+const flagChipSx = {
+  background: 'rgba(255, 255, 255, 0.9)',
+  color: 'primary.main',
+  fontWeight: 600,
+  '& .MuiChip-icon': {
+    color: 'primary.main',
+  },
+};
 
 interface EventCardProps {
   event: Event;
@@ -217,19 +227,20 @@ export default function EventCard({ event, index, isFirstCard = false, isHighlig
         <Box sx={{ maxWidth: { xs: '100%', md: '70%' } }}>
           {/* Date Badge */}
           <Stack direction="row" spacing={1} sx={{ mb: 2 }}>
+            {event.latest && (
+              <Chip
+                icon={<NewReleases sx={{ fontSize: '1rem' }} />}
+                label="Latest"
+                size={isMobile ? 'small' : 'medium'}
+                sx={flagChipSx}
+              />
+            )}
             {isHighlight && (
               <Chip
                 icon={<Star sx={{ fontSize: '1rem' }} />}
                 label="Featured"
                 size={isMobile ? 'small' : 'medium'}
-                sx={{
-                  background: 'rgba(255, 255, 255, 0.9)',
-                  color: 'primary.main',
-                  fontWeight: 600,
-                  '& .MuiChip-icon': {
-                    color: 'primary.main',
-                  },
-                }}
+                sx={flagChipSx}
               />
             )}
             <Chip

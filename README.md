@@ -76,6 +76,8 @@ Optional markdown content for additional details.
 - **highlightUntil**: Date in YYYY-MM-DD format (optional). Until this date, the event is also shown in a highlighted slot right after the most recent event (before the About Me section), in addition to its normal chronological position. It's removed from the slot on this date. The page re-renders hourly, so no redeploy is needed.
 - **Content**: Optional markdown content below the frontmatter
 
+The most recent event is automatically marked with a "Latest" flag; no frontmatter is needed.
+
 ### Event Type Filtering
 
 Event types are automatically inferred from event names. For example:

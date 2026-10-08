@@ -18,5 +18,6 @@ export interface Event {
   content?: string; // Markdown content
   slug: string; // Filename without extension
   highlighted?: boolean; // True while today is before the `highlightUntil` frontmatter date
+  latest?: boolean; // True for the most recent event by date
 }
 
